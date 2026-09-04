@@ -14,7 +14,10 @@ public abstract class AMiniGame : MonoBehaviour
     private PlayerPlaceholder player1;
     private PlayerPlaceholder player2;
 
-    public abstract void NotifyWinner(PlayerPlaceholder winnerPlayer);
+    public void NotifyWinner(PlayerPlaceholder winnerPlayer)
+    {
+        // GameManager.Singleton.SetWinner(winnerPlayer, Piece);
+    }
 
     public abstract void InitMiniGame();
 
