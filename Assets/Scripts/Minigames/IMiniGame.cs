@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IMiniGame
 {
-    public virtual void Init();
+    public void Init();
 
-    public virtual void End();
+    public void End();
 }
