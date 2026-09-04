@@ -11,15 +11,19 @@ public class MiniGame1 : AMiniGame
     private GameObject CarObject;
     private GameObject CarObject2;
 
+<<<<<<< HEAD
     public Sprite Car2Sprite;
 
 
+=======
+>>>>>>> parent of 17b67ed (Hola)
     [Header("Sumos")]
     public GameObject SumoPrefab;
 
     private GameObject SumoObject1;
     private GameObject SumoObject2;
 
+<<<<<<< HEAD
     public Sprite HappySumo;
     public Sprite SadSumo;
 
@@ -33,6 +37,10 @@ public class MiniGame1 : AMiniGame
     // Tiempo después de la animación antes de terminar
     public float EndDelay = 1f;
 
+=======
+    [Header("Time")]
+    public float Timer = 3f;
+>>>>>>> parent of 17b67ed (Hola)
     private float currentTimer = 0f;
 
 
@@ -40,6 +48,7 @@ public class MiniGame1 : AMiniGame
     public float PushDistance = 0.15f;
     public float PushDuration = 0.08f;
 
+<<<<<<< HEAD
 
     [Header("Throw Animation")]
     public float ThrowDistance = 6f;
@@ -49,6 +58,9 @@ public class MiniGame1 : AMiniGame
 
 
     public Player Player;
+=======
+    public Player Player; // Se obtiene del GameManager.
+>>>>>>> parent of 17b67ed (Hola)
 
     public bool ActiveGame = true;
 
@@ -66,6 +78,7 @@ public class MiniGame1 : AMiniGame
 
     public override void InitMiniGame()
     {
+<<<<<<< HEAD
         ActiveGame = true;
 
         currentTimer = 0f;
@@ -78,6 +91,8 @@ public class MiniGame1 : AMiniGame
         // CREATE PLAYERS
         // -------------------------
 
+=======
+>>>>>>> parent of 17b67ed (Hola)
         CarObject = Instantiate(CarPrefab);
         CarObject2 = Instantiate(CarPrefab2);
 
@@ -89,6 +104,7 @@ public class MiniGame1 : AMiniGame
         SumoObject1 = Instantiate(SumoPrefab);
         SumoObject2 = Instantiate(SumoPrefab);
 
+<<<<<<< HEAD
 
         // -------------------------
         // POSITIONS
@@ -116,10 +132,17 @@ public class MiniGame1 : AMiniGame
         // Flip Sumo 2
         SumoObject2.transform.localScale =
             new Vector3(-1f, 1f, 1f);
+=======
+        CarObject.transform.position = new Vector3(-1.5f, 1, -8);
+        CarObject2.transform.position = new Vector3(1.5f, 1, -8);
+
+        SumoObject1.transform.position = new Vector3(-1, 1, -8);
+        SumoObject2.transform.position = new Vector3(1, 1, -8);
+>>>>>>> parent of 17b67ed (Hola)
     }
 
 
-    private void Update()
+    void Update()
     {
         if (!ActiveGame)
         {
@@ -127,26 +150,32 @@ public class MiniGame1 : AMiniGame
         }
 
 
-        // -------------------------
         // TIMER
-        // -------------------------
-
         currentTimer += Time.deltaTime;
 
         if (currentTimer >= Timer)
         {
             ActiveGame = false;
 
-            StartCoroutine(ShowWinner());
+            if (P1Score > P2Score)
+            {
+                print("P1 Gana");
+            }
+            else if (P1Score < P2Score)
+            {
+                print("P2 Gana");
+            }
+            else
+            {
+                print("Empate");
+            }
 
+            EndMiniGame();
             return;
         }
 
 
-        // -------------------------
         // PLAYER 1
-        // -------------------------
-
         if (Keyboard.current.wKey.wasPressedThisFrame)
         {
             P1Score++;
@@ -167,10 +196,7 @@ public class MiniGame1 : AMiniGame
         }
 
 
-        // -------------------------
         // PLAYER 2
-        // -------------------------
-
         if (Keyboard.current.upArrowKey.wasPressedThisFrame)
         {
             P2Score++;
@@ -192,6 +218,7 @@ public class MiniGame1 : AMiniGame
     }
 
 
+<<<<<<< HEAD
     private IEnumerator ShowWinner()
     {
         P1Animating = false;
@@ -448,6 +475,9 @@ public class MiniGame1 : AMiniGame
 
 
     private IEnumerator PushAnimation(
+=======
+    IEnumerator PushAnimation(
+>>>>>>> parent of 17b67ed (Hola)
         GameObject car,
         GameObject sumo,
         Vector3 direction,
@@ -464,28 +494,36 @@ public class MiniGame1 : AMiniGame
         }
 
 
+<<<<<<< HEAD
         Vector3 carStart =
             car.transform.position;
 
         Vector3 sumoStart =
             sumo.transform.position;
 
+=======
+        // Posiciones originales
+        Vector3 carStart = car.transform.position;
+        Vector3 sumoStart = sumo.transform.position;
+>>>>>>> parent of 17b67ed (Hola)
 
-        Vector3 carPush =
-            carStart + direction * PushDistance;
-
-        Vector3 sumoPush =
-            sumoStart + direction * PushDistance;
+        // Posiciones del pequeño empujón
+        Vector3 carPush = carStart + direction * PushDistance;
+        Vector3 sumoPush = sumoStart + direction * PushDistance;
 
 
         // -------------------------
-        // PUSH
+        // IR HACIA DELANTE
         // -------------------------
 
         float time = 0f;
 
+<<<<<<< HEAD
 
         while (time < PushDuration && ActiveGame)
+=======
+        while (time < PushDuration)
+>>>>>>> parent of 17b67ed (Hola)
         {
             time += Time.deltaTime;
 
@@ -513,6 +551,7 @@ public class MiniGame1 : AMiniGame
         }
 
 
+<<<<<<< HEAD
         // El minijuego terminó mientras empujaba
         if (!ActiveGame)
         {
@@ -526,14 +565,20 @@ public class MiniGame1 : AMiniGame
         }
 
 
+=======
+>>>>>>> parent of 17b67ed (Hola)
         // -------------------------
-        // RETURN
+        // REGRESAR
         // -------------------------
 
         time = 0f;
 
+<<<<<<< HEAD
 
         while (time < PushDuration && ActiveGame)
+=======
+        while (time < PushDuration)
+>>>>>>> parent of 17b67ed (Hola)
         {
             time += Time.deltaTime;
 
@@ -561,11 +606,17 @@ public class MiniGame1 : AMiniGame
         }
 
 
+<<<<<<< HEAD
         car.transform.position =
             carStart;
 
         sumo.transform.position =
             sumoStart;
+=======
+        // Asegurar posición original
+        car.transform.position = carStart;
+        sumo.transform.position = sumoStart;
+>>>>>>> parent of 17b67ed (Hola)
 
 
         if (player == 1)
