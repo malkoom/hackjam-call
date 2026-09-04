@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 
 public class MiniGame1 : AMiniGame
 {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     [Header("Players")]
     public GameObject CarPrefab;
     public GameObject CarPrefab2;
@@ -24,12 +28,16 @@ public class MiniGame1 : AMiniGame
 
     [Header("Time")]
     public float Timer = 3f;
+<<<<<<< Updated upstream
 
     // Cuánto tiempo muestra al ganador/perdedor antes de lanzarlo
     public float WinnerPause = 0.5f;
 
     // Cuánto espera después de lanzarlo
     public float EndDelay = 1f;
+=======
+    public float EndDelay = 2f;
+>>>>>>> Stashed changes
 
     private float currentTimer = 0f;
 
@@ -37,12 +45,15 @@ public class MiniGame1 : AMiniGame
     public float PushDistance = 0.15f;
     public float PushDuration = 0.08f;
 
+<<<<<<< Updated upstream
     [Header("Lose Throw Animation")]
     public float ThrowDistance = 6f;
     public float ThrowHeight = 2f;
     public float ThrowDuration = 0.8f;
     public float ThrowRotation = 720f;
 
+=======
+>>>>>>> Stashed changes
     public Player Player;
 
     public bool ActiveGame = true;
@@ -71,18 +82,24 @@ public class MiniGame1 : AMiniGame
     public override void InitMiniGame()
     {
         ActiveGame = true;
+<<<<<<< Updated upstream
 
         currentTimer = 0f;
 
         P1Score = 0;
         P2Score = 0;
 
+=======
+        currentTimer = 0f;
+
+>>>>>>> Stashed changes
         CarObject = Instantiate(CarPrefab);
         CarObject2 = Instantiate(CarPrefab2);
 
         SumoObject1 = Instantiate(SumoPrefab);
         SumoObject2 = Instantiate(SumoPrefab);
 
+<<<<<<< Updated upstream
         CarObject.transform.position =
             new Vector3(-1.5f, 1f - 0.159f, -8f);
 
@@ -104,6 +121,21 @@ public class MiniGame1 : AMiniGame
 
 
     private void Update()
+=======
+        CarObject.transform.position = new Vector3(-1.5f, 1 - 0.159f , -8);
+
+        CarObject2.transform.position = new Vector3(1.5f, 1 - 0.159f, -8);
+        CarObject2.GetComponent<SpriteRenderer>().sprite = Car2Sprite;
+
+        SumoObject1.transform.position = new Vector3(-1, 1, -8);
+
+        SumoObject2.transform.position = new Vector3(1, 1, -8);
+        SumoObject2.transform.localScale = new Vector3(-1, 1, 1);
+    }
+
+
+    void Update()
+>>>>>>> Stashed changes
     {
         if (!ActiveGame)
         {
@@ -178,12 +210,21 @@ public class MiniGame1 : AMiniGame
 
     IEnumerator ShowWinner()
     {
+<<<<<<< Updated upstream
         P1Animating = false;
         P2Animating = false;
 
 
         // -------------------------
         // P1 GANA
+=======
+        // Stop the push animations first
+        StopCoroutineAnimations();
+
+
+        // -------------------------
+        // P1 WINS
+>>>>>>> Stashed changes
         // -------------------------
 
         if (P1Score > P2Score)
@@ -192,6 +233,7 @@ public class MiniGame1 : AMiniGame
 
             SumoObject1.GetComponent<SpriteRenderer>().sprite = HappySumo;
             SumoObject2.GetComponent<SpriteRenderer>().sprite = SadSumo;
+<<<<<<< Updated upstream
 
 
             // Dejar que se vean las caras
@@ -206,11 +248,17 @@ public class MiniGame1 : AMiniGame
                     Vector3.right
                 )
             );
+=======
+>>>>>>> Stashed changes
         }
 
 
         // -------------------------
+<<<<<<< Updated upstream
         // P2 GANA
+=======
+        // P2 WINS
+>>>>>>> Stashed changes
         // -------------------------
 
         else if (P2Score > P1Score)
@@ -219,6 +267,7 @@ public class MiniGame1 : AMiniGame
 
             SumoObject1.GetComponent<SpriteRenderer>().sprite = SadSumo;
             SumoObject2.GetComponent<SpriteRenderer>().sprite = HappySumo;
+<<<<<<< Updated upstream
 
 
             // Dejar que se vean las caras
@@ -233,11 +282,17 @@ public class MiniGame1 : AMiniGame
                     Vector3.left
                 )
             );
+=======
+>>>>>>> Stashed changes
         }
 
 
         // -------------------------
+<<<<<<< Updated upstream
         // EMPATE
+=======
+        // DRAW
+>>>>>>> Stashed changes
         // -------------------------
 
         else
@@ -246,12 +301,19 @@ public class MiniGame1 : AMiniGame
 
             SumoObject1.GetComponent<SpriteRenderer>().sprite = SadSumo;
             SumoObject2.GetComponent<SpriteRenderer>().sprite = SadSumo;
+<<<<<<< Updated upstream
 
             yield return new WaitForSeconds(WinnerPause);
         }
 
 
         // Esperar un poco después de la animación
+=======
+        }
+
+
+        // Wait so the player can see the result
+>>>>>>> Stashed changes
         yield return new WaitForSeconds(EndDelay);
 
 
@@ -259,6 +321,7 @@ public class MiniGame1 : AMiniGame
     }
 
 
+<<<<<<< Updated upstream
     IEnumerator ThrowLoser(
         GameObject car,
         GameObject sumo,
@@ -329,6 +392,12 @@ public class MiniGame1 : AMiniGame
 
             yield return null;
         }
+=======
+    private void StopCoroutineAnimations()
+    {
+        P1Animating = false;
+        P2Animating = false;
+>>>>>>> Stashed changes
     }
 
 
@@ -381,6 +450,10 @@ public class MiniGame1 : AMiniGame
         }
 
 
+<<<<<<< Updated upstream
+=======
+        // If the game ended, stop this animation
+>>>>>>> Stashed changes
         if (!ActiveGame)
         {
             car.transform.position = carStart;
