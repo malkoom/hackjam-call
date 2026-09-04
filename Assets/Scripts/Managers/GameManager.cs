@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     private AMiniGame currentMinigame;
     private Piece currentPiece;
     private Player currentWinner;
-    private Player player1;
-    private Player player2;
+    public Player player1;
+    public Player player2;
 
     private void Awake()
     {
@@ -106,9 +106,11 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FeedbackRoutine()
     {
+        UIManager.Singleton.CloseDoor();
+        yield return new WaitForSeconds(0.5f);
         // 1. Aplicar la pieza al jugador ganador
         // PlayerManager.Instance.GetPlayer(currentWinner).GivePiece(currentPiece);
-
+        currentMinigame.gameObject.SetActive(false);
         // 2. Espera para el lerp/animación de la pieza viajando al coche
         yield return new WaitForSeconds(1.5f);
 
@@ -117,11 +119,5 @@ public class GameManager : MonoBehaviour
 
         // 4. Pausa antes de cerrar/bajar la compuerta de transición
         yield return new WaitForSeconds(1.5f);
-
-        // 5. Cerrar puerta a través del UIManager
-        if (UIManager.Singleton != null)
-        {
-            UIManager.Singleton.CloseDoor();
-        }
     }
 }

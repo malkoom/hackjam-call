@@ -18,7 +18,6 @@ public abstract class AMiniGame : MonoBehaviour
 
     public void ReturnToMiddleScene()
     {
-        //Id de la escena intermedia puesta en 1. se puede cambiar
-        SceneManager.LoadScene(1);
+        GameManager.Singleton.StartFeedbackSequence();
     }
 }
