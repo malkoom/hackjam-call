@@ -14,7 +14,6 @@ public class MiniGame1 : AMiniGame
     private Sprite Car1Sprite;
     private Sprite Car2Sprite;
 
-
     [Header("Sumos")]
     public GameObject SumoPrefab;
 
@@ -23,7 +22,6 @@ public class MiniGame1 : AMiniGame
 
     public Sprite HappySumo;
     public Sprite SadSumo;
-
 
     [Header("Time")]
     public float Timer = 3f;
@@ -34,11 +32,9 @@ public class MiniGame1 : AMiniGame
 
     private float currentTimer = 0f;
 
-
     [Header("Push Animation")]
     public float PushDistance = 0.15f;
     public float PushDuration = 0.08f;
-
 
     [Header("Throw Animation")]
     public float ThrowDistance = 6f;
@@ -46,13 +42,11 @@ public class MiniGame1 : AMiniGame
     public float ThrowDuration = 0.8f;
     public float ThrowRotation = 720f;
 
-
     public Player Player;
 
     public bool ActiveGame = true;
 
     public int MaxScore = 80;
-
 
     private int P1Score = 0;
     private int P2Score = 0;
@@ -60,12 +54,10 @@ public class MiniGame1 : AMiniGame
     private bool P1Animating = false;
     private bool P2Animating = false;
 
-
     private void Start()
     {
         InitMiniGame();
     }
-
 
     public override void InitMiniGame()
     {
@@ -76,14 +68,12 @@ public class MiniGame1 : AMiniGame
         P1Score = 0;
         P2Score = 0;
 
-
         // -------------------------
         // CREATE CARS
         // -------------------------
 
         CarObject = Instantiate(CarPrefab, transform);
         CarObject2 = Instantiate(CarPrefab2, transform);
-
 
         // -------------------------
         // CREATE SUMOS
@@ -92,36 +82,28 @@ public class MiniGame1 : AMiniGame
         SumoObject1 = Instantiate(SumoPrefab, transform);
         SumoObject2 = Instantiate(SumoPrefab, transform);
 
-
         // -------------------------
         // POSITIONS
         // -------------------------
 
         //CarObject.transform.position =
-            //new Vector3(-1.5f, 1f - 0.159f, -8f);
+        //new Vector3(-1.5f, 1f - 0.159f, -8f);
 
-       // CarObject2.transform.position =
-            //new Vector3(1.5f, 1f - 0.159f, -8f);
-
+        // CarObject2.transform.position =
+        //new Vector3(1.5f, 1f - 0.159f, -8f);
 
         // Change P2 car sprite
         CarObject.GetComponent<SpriteRenderer>().sprite = GameManager.player1;
 
         CarObject2.GetComponent<SpriteRenderer>().sprite = GameManager.player2;
 
+        SumoObject1.transform.position = new Vector3(-1f, 1f, -8f);
 
-        SumoObject1.transform.position =
-            new Vector3(-1f, 1f, -8f);
-
-        SumoObject2.transform.position =
-            new Vector3(1f, 1f, -8f);
-
+        SumoObject2.transform.position = new Vector3(1f, 1f, -8f);
 
         // Flip Sumo 2
-        SumoObject2.transform.localScale =
-            new Vector3(-1f, 1f, 1f);
+        SumoObject2.transform.localScale = new Vector3(-1f, 1f, 1f);
     }
-
 
     private void Update()
     {
@@ -130,13 +112,11 @@ public class MiniGame1 : AMiniGame
             return;
         }
 
-
         // -------------------------
         // TIMER
         // -------------------------
 
         currentTimer += Time.deltaTime;
-
 
         if (currentTimer >= Timer)
         {
@@ -147,7 +127,6 @@ public class MiniGame1 : AMiniGame
             return;
         }
 
-
         // -------------------------
         // PLAYER 1
         // -------------------------
@@ -156,23 +135,13 @@ public class MiniGame1 : AMiniGame
         {
             P1Score++;
 
-
             if (!P1Animating)
             {
-                StartCoroutine(
-                    PushAnimation(
-                        CarObject,
-                        SumoObject1,
-                        Vector3.right,
-                        1
-                    )
-                );
+                StartCoroutine(PushAnimation(CarObject, SumoObject1, Vector3.right, 1));
             }
-
 
             print(P1Score + " / " + P2Score);
         }
-
 
         // -------------------------
         // PLAYER 2
@@ -182,30 +151,19 @@ public class MiniGame1 : AMiniGame
         {
             P2Score++;
 
-
             if (!P2Animating)
             {
-                StartCoroutine(
-                    PushAnimation(
-                        CarObject2,
-                        SumoObject2,
-                        Vector3.left,
-                        2
-                    )
-                );
+                StartCoroutine(PushAnimation(CarObject2, SumoObject2, Vector3.left, 2));
             }
-
 
             print(P1Score + " / " + P2Score);
         }
     }
 
-
     private IEnumerator ShowWinner()
     {
         P1Animating = false;
         P2Animating = false;
-
 
         // -------------------------
         // P1 WINS
@@ -216,33 +174,18 @@ public class MiniGame1 : AMiniGame
             NotifyWinner(1);
             print("P1 Gana");
 
+            SumoObject1.GetComponent<SpriteRenderer>().sprite = HappySumo;
 
-            SumoObject1
-                .GetComponent<SpriteRenderer>()
-                .sprite = HappySumo;
-
-            SumoObject2
-                .GetComponent<SpriteRenderer>()
-                .sprite = SadSumo;
-
+            SumoObject2.GetComponent<SpriteRenderer>().sprite = SadSumo;
 
             yield return new WaitForSeconds(WinnerPause);
-
 
             // P2 car loses
             // P1 sumo wins
             // ONLY THESE TWO FLY
 
-            yield return StartCoroutine(
-                ThrowObjects(
-                    CarObject2,
-                    SumoObject1,
-                    Vector3.right
-                )
-            );
+            yield return StartCoroutine(ThrowObjects(CarObject2, SumoObject1, Vector3.right));
         }
-
-
         // -------------------------
         // P2 WINS
         // -------------------------
@@ -252,33 +195,18 @@ public class MiniGame1 : AMiniGame
             NotifyWinner(2);
             print("P2 Gana");
 
+            SumoObject1.GetComponent<SpriteRenderer>().sprite = SadSumo;
 
-            SumoObject1
-                .GetComponent<SpriteRenderer>()
-                .sprite = SadSumo;
-
-            SumoObject2
-                .GetComponent<SpriteRenderer>()
-                .sprite = HappySumo;
-
+            SumoObject2.GetComponent<SpriteRenderer>().sprite = HappySumo;
 
             yield return new WaitForSeconds(WinnerPause);
-
 
             // P1 car loses
             // P2 sumo wins
             // ONLY THESE TWO FLY
 
-            yield return StartCoroutine(
-                ThrowObjects(
-                    CarObject,
-                    SumoObject2,
-                    Vector3.left
-                )
-            );
+            yield return StartCoroutine(ThrowObjects(CarObject, SumoObject2, Vector3.left));
         }
-
-
         // -------------------------
         // DRAW
         // -------------------------
@@ -288,156 +216,90 @@ public class MiniGame1 : AMiniGame
             NotifyWinner(1);
             print("Empate");
 
+            SumoObject1.GetComponent<SpriteRenderer>().sprite = SadSumo;
 
-            SumoObject1
-                .GetComponent<SpriteRenderer>()
-                .sprite = SadSumo;
-
-            SumoObject2
-                .GetComponent<SpriteRenderer>()
-                .sprite = SadSumo;
-
+            SumoObject2.GetComponent<SpriteRenderer>().sprite = SadSumo;
 
             yield return new WaitForSeconds(WinnerPause);
         }
 
-
         yield return new WaitForSeconds(EndDelay);
-
 
         EndMiniGame();
     }
 
-
-    private IEnumerator ThrowObjects(
-        GameObject loserCar,
-        GameObject winnerSumo,
-        Vector3 direction
-    )
+    private IEnumerator ThrowObjects(GameObject loserCar, GameObject winnerSumo, Vector3 direction)
     {
         // -------------------------
         // START
         // -------------------------
 
-        Vector3 carStart =
-            loserCar.transform.position;
+        Vector3 carStart = loserCar.transform.position;
 
-        Vector3 sumoStart =
-            winnerSumo.transform.position;
+        Vector3 sumoStart = winnerSumo.transform.position;
 
+        Quaternion carStartRotation = loserCar.transform.rotation;
 
-        Quaternion carStartRotation =
-            loserCar.transform.rotation;
-
-        Quaternion sumoStartRotation =
-            winnerSumo.transform.rotation;
-
+        Quaternion sumoStartRotation = winnerSumo.transform.rotation;
 
         // -------------------------
         // END
         // -------------------------
 
-        Vector3 carEnd =
-            carStart + direction * ThrowDistance;
+        Vector3 carEnd = carStart + direction * ThrowDistance;
 
-        Vector3 sumoEnd =
-            sumoStart + direction * ThrowDistance;
-
+        Vector3 sumoEnd = sumoStart + direction * ThrowDistance;
 
         float time = 0f;
-
 
         while (time < ThrowDuration)
         {
             time += Time.deltaTime;
 
-
-            float t =
-                Mathf.Clamp01(
-                    time / ThrowDuration
-                );
-
+            float t = Mathf.Clamp01(time / ThrowDuration);
 
             // -------------------------
             // MOVEMENT
             // -------------------------
 
-            Vector3 carPosition =
-                Vector3.Lerp(
-                    carStart,
-                    carEnd,
-                    t
-                );
+            Vector3 carPosition = Vector3.Lerp(carStart, carEnd, t);
 
-
-            Vector3 sumoPosition =
-                Vector3.Lerp(
-                    sumoStart,
-                    sumoEnd,
-                    t
-                );
-
+            Vector3 sumoPosition = Vector3.Lerp(sumoStart, sumoEnd, t);
 
             // -------------------------
             // ARC
             // -------------------------
 
-            float arc =
-                Mathf.Sin(
-                    t * Mathf.PI
-                ) * ThrowHeight;
-
+            float arc = Mathf.Sin(t * Mathf.PI) * ThrowHeight;
 
             carPosition.y += arc;
             sumoPosition.y += arc;
 
+            loserCar.transform.position = carPosition;
 
-            loserCar.transform.position =
-                carPosition;
-
-            winnerSumo.transform.position =
-                sumoPosition;
-
+            winnerSumo.transform.position = sumoPosition;
 
             // -------------------------
             // ROTATION
             // -------------------------
 
-            float rotation =
-                ThrowRotation * t;
+            float rotation = ThrowRotation * t;
 
-
-            float rotationDirection =
-                direction.x;
-
+            float rotationDirection = direction.x;
 
             loserCar.transform.rotation =
-                carStartRotation *
-                Quaternion.Euler(
-                    0f,
-                    0f,
-                    rotation * rotationDirection
-                );
-
+                carStartRotation * Quaternion.Euler(0f, 0f, rotation * rotationDirection);
 
             winnerSumo.transform.rotation =
-                sumoStartRotation *
-                Quaternion.Euler(
-                    0f,
-                    0f,
-                    rotation * rotationDirection
-                );
-
+                sumoStartRotation * Quaternion.Euler(0f, 0f, rotation * rotationDirection);
 
             yield return null;
         }
-
 
         // Make sure they end exactly there
         loserCar.transform.position = carEnd;
         winnerSumo.transform.position = sumoEnd;
     }
-
 
     private IEnumerator PushAnimation(
         GameObject car,
@@ -455,20 +317,13 @@ public class MiniGame1 : AMiniGame
             P2Animating = true;
         }
 
+        Vector3 carStart = car.transform.position;
 
-        Vector3 carStart =
-            car.transform.position;
+        Vector3 sumoStart = sumo.transform.position;
 
-        Vector3 sumoStart =
-            sumo.transform.position;
+        Vector3 carPush = carStart + direction * PushDistance;
 
-
-        Vector3 carPush =
-            carStart + direction * PushDistance;
-
-        Vector3 sumoPush =
-            sumoStart + direction * PushDistance;
-
+        Vector3 sumoPush = sumoStart + direction * PushDistance;
 
         // -------------------------
         // PUSH
@@ -476,37 +331,18 @@ public class MiniGame1 : AMiniGame
 
         float time = 0f;
 
-
         while (time < PushDuration && ActiveGame)
         {
             time += Time.deltaTime;
 
+            float t = Mathf.Clamp01(time / PushDuration);
 
-            float t =
-                Mathf.Clamp01(
-                    time / PushDuration
-                );
+            car.transform.position = Vector3.Lerp(carStart, carPush, t);
 
-
-            car.transform.position =
-                Vector3.Lerp(
-                    carStart,
-                    carPush,
-                    t
-                );
-
-
-            sumo.transform.position =
-                Vector3.Lerp(
-                    sumoStart,
-                    sumoPush,
-                    t
-                );
-
+            sumo.transform.position = Vector3.Lerp(sumoStart, sumoPush, t);
 
             yield return null;
         }
-
 
         // Game ended while pushing
         if (!ActiveGame)
@@ -517,48 +353,27 @@ public class MiniGame1 : AMiniGame
             yield break;
         }
 
-
         // -------------------------
         // RETURN
         // -------------------------
 
         time = 0f;
 
-
         while (time < PushDuration && ActiveGame)
         {
             time += Time.deltaTime;
 
+            float t = Mathf.Clamp01(time / PushDuration);
 
-            float t =
-                Mathf.Clamp01(
-                    time / PushDuration
-                );
+            car.transform.position = Vector3.Lerp(carPush, carStart, t);
 
-
-            car.transform.position =
-                Vector3.Lerp(
-                    carPush,
-                    carStart,
-                    t
-                );
-
-
-            sumo.transform.position =
-                Vector3.Lerp(
-                    sumoPush,
-                    sumoStart,
-                    t
-                );
-
+            sumo.transform.position = Vector3.Lerp(sumoPush, sumoStart, t);
 
             yield return null;
         }
 
-
         car.transform.position = carStart;
         sumo.transform.position = sumoStart;
-
 
         if (player == 1)
         {
@@ -570,21 +385,17 @@ public class MiniGame1 : AMiniGame
         }
     }
 
-
     public override void EndMiniGame()
     {
         print("Fin");
 
-
         StopAllCoroutines();
-
 
         Destroy(CarObject);
         Destroy(CarObject2);
 
         Destroy(SumoObject1);
         Destroy(SumoObject2);
-
 
         ReturnToMiddleScene();
     }
