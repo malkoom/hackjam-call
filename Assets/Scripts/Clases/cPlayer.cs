@@ -18,6 +18,8 @@ public enum BodyPart //Partes del Coche
 }
 public class Player: MonoBehaviour
 {
+    public Sprite Skin;
+
     public int id = 0; //P1, P2, etc.
 
     public int speed = 10;
