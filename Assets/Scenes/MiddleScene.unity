@@ -791,6 +791,7 @@ GameObject:
   - component: {fileID: 1867457314}
   - component: {fileID: 1867457316}
   - component: {fileID: 1867457315}
+  - component: {fileID: 1867457317}
   m_Layer: 5
   m_Name: PieceImage
   m_TagString: Untagged
@@ -855,6 +856,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1867457313}
   m_CullTransparentMesh: 1
+--- !u!114 &1867457317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867457313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c278cda575f0f19a09d60aa44714211e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImageFlyController
+  imageObject: {fileID: 1867457313}
+  travelDuration: 0.6
+  piecesImages:
+  - {fileID: -6271584838675699779, guid: 7fc8053030356ad43af714242f5a41d1, type: 3}
+  - {fileID: 1410615586094006702, guid: 623d3cf8af73b0b4099f8742ce21232f, type: 3}
 --- !u!1 &1955734328
 GameObject:
   m_ObjectHideFlags: 0
