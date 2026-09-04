@@ -12,7 +12,7 @@ public class ImageFlyController : MonoBehaviour
     private float travelDuration = 0.6f;
 
     [SerializeField]
-    private List<Sprite> piecesImages;
+    private Dictionary<Piece, Sprite> piecesImages;
 
     private void Reset()
     {

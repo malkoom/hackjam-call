@@ -1,22 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public struct PiecePlaceholder { };
-
-public struct PlayerPlaceholder { };
-
 public abstract class AMiniGame : MonoBehaviour
 {
     public string Name;
-    public PiecePlaceholder Piece;
+    public Piece Piece;
     public static uint SceneID;
 
-    private PlayerPlaceholder player1;
-    private PlayerPlaceholder player2;
-
-    public void NotifyWinner(PlayerPlaceholder winnerPlayer)
+    public void NotifyWinner(int player)
     {
-        // GameManager.Singleton.SetWinner(winnerPlayer, Piece);
+        GameManager.Singleton.SetWinner(player, Piece);
     }
 
     public abstract void InitMiniGame();

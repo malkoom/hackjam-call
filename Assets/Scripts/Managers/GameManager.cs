@@ -1,63 +1,127 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Singleton;
 
-    // Diccionario Pieza ---> Minijuegos
-    // Cambiar luego por la versión final de pieza
+    // Estructura auxiliar para poder editarlo desde el Inspector de Unity
+    [System.Serializable]
+    public struct PieceMinigameEntry
+    {
+        public Piece piece;
+        public List<AMiniGame> minigames;
+    }
+
+    [Header("Configuración de Minijuegos")]
     [SerializeField]
-    private Dictionary<int, List<AMiniGame>> miniGameDictionary =
-        new Dictionary<int, List<AMiniGame>>();
+    private List<PieceMinigameEntry> minigameSetup = new List<PieceMinigameEntry>();
+
+    private Dictionary<Piece, List<AMiniGame>> miniGameDictionary =
+        new Dictionary<Piece, List<AMiniGame>>();
+
     private AMiniGame currentMinigame;
-    private int currentPiece;
-    private int currentWinner;
+    private Piece currentPiece;
+    private Player currentWinner;
+    private Player player1;
+    private Player player2;
 
-    private System.Random randomGenerator;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
-        if (!Singleton)
+        if (Singleton == null)
         {
             Singleton = this;
-            DontDestroyOnLoad(Singleton);
+            DontDestroyOnLoad(gameObject);
+            InitializeDictionary();
         }
         else
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 
-    // Decide el siguiente minijuego de forma aleatoria
-    private bool PullMinigame()
+    private void InitializeDictionary()
     {
-        int randPiece = randomGenerator.Next(miniGameDictionary.Keys.Count);
-        int randMinigame = randomGenerator.Next(miniGameDictionary[randPiece].Count);
-
-        currentMinigame = miniGameDictionary[randPiece][randMinigame];
-        currentPiece = randPiece;
-
-        return currentMinigame;
+        miniGameDictionary.Clear();
+        foreach (var entry in minigameSetup)
+        {
+            if (entry.piece != null && !miniGameDictionary.ContainsKey(entry.piece))
+            {
+                miniGameDictionary.Add(entry.piece, entry.minigames);
+            }
+        }
     }
 
-    // Marca el jugador ganador y la pieza a consumir
-    public void SetWinner(int player, int piece)
+    // Selecciona aleatoriamente una pieza y uno de sus minijuegos disponibles
+    public AMiniGame PullMinigame()
     {
-        currentWinner = player;
+        if (miniGameDictionary.Count == 0)
+        {
+            Debug.LogWarning("No hay piezas ni minijuegos configurados en el diccionario.");
+            return null;
+        }
+
+        // Obtener una clave aleatoria (Piece)
+        List<Piece> availablePieces = miniGameDictionary.Keys.ToList();
+        int randPieceIndex = UnityEngine.Random.Range(0, availablePieces.Count);
+        currentPiece = availablePieces[randPieceIndex];
+
+        List<AMiniGame> availableMinigames = miniGameDictionary[currentPiece];
+
+        if (availableMinigames == null || availableMinigames.Count == 0)
+        {
+            Debug.LogWarning($"La pieza {currentPiece} no tiene minijuegos asignados.");
+            return null;
+        }
+
+        // Obtener un minijuego aleatorio para esa pieza
+        int randMinigameIndex = UnityEngine.Random.Range(0, availableMinigames.Count);
+        currentMinigame = availableMinigames[randMinigameIndex];
+
+        return currentMinigame;
+
+        // TODO
+        // Quitar la pieza tomada
+    }
+
+    public void SetWinner(int player, Piece piece)
+    {
+        if (player == 1)
+            currentWinner = player1;
+        if (player == 2)
+            currentWinner = player2;
+        else
+            Debug.LogError("Numero de player no existe");
         currentPiece = piece;
     }
 
-    public void FeedBack()
+    public void StartFeedbackSequence()
     {
-        //1 . Aplicar la pieza al jugador
-        // currentWinner.GivePiece(currentPiece);
-        // 2. Lerpeo de la pieza al coche del player.
-        // Sleep 1.5 segundos
-        // 3. Aparece nueva pieza y minijuego
-        // PullMinigame();
-        // Sleep 1.5
-        // Puerta abajo
+        StopAllCoroutines();
+        StartCoroutine(FeedbackRoutine());
+    }
+
+    private IEnumerator FeedbackRoutine()
+    {
+        // 1. Aplicar la pieza al jugador ganador
+        // PlayerManager.Instance.GetPlayer(currentWinner).GivePiece(currentPiece);
+
+        // 2. Espera para el lerp/animación de la pieza viajando al coche
+        yield return new WaitForSeconds(1.5f);
+
+        // 3. Seleccionar nuevo minijuego y pieza
+        PullMinigame();
+
+        // 4. Pausa antes de cerrar/bajar la compuerta de transición
+        yield return new WaitForSeconds(1.5f);
+
+        // 5. Cerrar puerta a través del UIManager
+        if (UIManager.Singleton != null)
+        {
+            UIManager.Singleton.CloseDoor();
+        }
     }
 }
