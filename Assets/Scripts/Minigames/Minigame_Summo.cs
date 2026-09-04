@@ -11,7 +11,8 @@ public class MiniGame1 : AMiniGame
     private GameObject CarObject;
     private GameObject CarObject2;
 
-    public Sprite Car2Sprite;
+    private Sprite Car1Sprite;
+    private Sprite Car2Sprite;
 
 
     [Header("Sumos")]
@@ -80,33 +81,33 @@ public class MiniGame1 : AMiniGame
         // CREATE CARS
         // -------------------------
 
-        CarObject = Instantiate(CarPrefab);
-        CarObject2 = Instantiate(CarPrefab2);
+        CarObject = Instantiate(CarPrefab, transform);
+        CarObject2 = Instantiate(CarPrefab2, transform);
 
 
         // -------------------------
         // CREATE SUMOS
         // -------------------------
 
-        SumoObject1 = Instantiate(SumoPrefab);
-        SumoObject2 = Instantiate(SumoPrefab);
+        SumoObject1 = Instantiate(SumoPrefab, transform);
+        SumoObject2 = Instantiate(SumoPrefab, transform);
 
 
         // -------------------------
         // POSITIONS
         // -------------------------
 
-        CarObject.transform.position =
-            new Vector3(-1.5f, 1f - 0.159f, -8f);
+        //CarObject.transform.position =
+            //new Vector3(-1.5f, 1f - 0.159f, -8f);
 
-        CarObject2.transform.position =
-            new Vector3(1.5f, 1f - 0.159f, -8f);
+       // CarObject2.transform.position =
+            //new Vector3(1.5f, 1f - 0.159f, -8f);
 
 
         // Change P2 car sprite
-        CarObject2
-            .GetComponent<SpriteRenderer>()
-            .sprite = Car2Sprite;
+        CarObject.GetComponent<SpriteRenderer>().sprite = GameManager.player1;
+
+        CarObject2.GetComponent<SpriteRenderer>().sprite = GameManager.player2;
 
 
         SumoObject1.transform.position =
@@ -212,6 +213,7 @@ public class MiniGame1 : AMiniGame
 
         if (P1Score > P2Score)
         {
+            NotifyWinner(1);
             print("P1 Gana");
 
 
@@ -247,6 +249,7 @@ public class MiniGame1 : AMiniGame
 
         else if (P2Score > P1Score)
         {
+            NotifyWinner(2);
             print("P2 Gana");
 
 
@@ -282,6 +285,7 @@ public class MiniGame1 : AMiniGame
 
         else
         {
+            NotifyWinner(1);
             print("Empate");
 
 
@@ -573,11 +577,6 @@ public class MiniGame1 : AMiniGame
 
 
         StopAllCoroutines();
-
-
-        NotifyWinner(
-            new PlayerPlaceholder()
-        );
 
 
         Destroy(CarObject);
