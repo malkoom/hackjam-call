@@ -240,6 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   doorController: {fileID: 247365382}
+  pieceToPlayer: {fileID: 0}
+  garage: {fileID: 0}
 --- !u!1 &247365378
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +837,8 @@ MonoBehaviour:
     - Minigame Test
   fadeOutDelay: 0.75
   fadeInDelay: 0.75
+  player1: {fileID: 0}
+  player2: {fileID: 0}
 --- !u!1 &1296339435
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,6 +868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4f4b9caf6e74448886da0c8db76631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  Skin: {fileID: 0}
   id: 0
   speed: 10
   acceleration: 2
@@ -972,22 +977,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ImageFlyController
   imageObject: {fileID: 1867457313}
+  InitialTransform: {fileID: 0}
+  player1: {fileID: 0}
+  player2: {fileID: 0}
   travelDuration: 0.6
-  piecesImages:
-  - key:
-      PieceTexture: {fileID: 0}
-      PieceName: Null Piece
-      BoostType: 0
-      BodyPart: 0
-      Value: 0
-    value: {fileID: 0}
-  - key:
-      PieceTexture: {fileID: 0}
-      PieceName: Null Piece
-      BoostType: 0
-      BodyPart: 0
-      Value: 0
-    value: {fileID: 0}
 --- !u!1 &1955734328
 GameObject:
   m_ObjectHideFlags: 0
