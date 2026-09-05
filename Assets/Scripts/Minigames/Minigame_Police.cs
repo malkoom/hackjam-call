@@ -70,6 +70,9 @@ public class Minigame_Police : AMiniGame
     private int P2CurrentNote = 0;
     private int P2Score = 0;
 
+    private bool P1Winner = false;
+    private bool P2Winner = false;
+
     private int MaxScore = 10;
 
 
@@ -107,7 +110,36 @@ public class Minigame_Police : AMiniGame
 
         CurrentTimer += Time.deltaTime;
 
-        UpdateObstacles();
+        if (P1Winner && P2Winner)
+        {
+            P1Fail = true;
+            P1Winner = false;
+        }
+
+        if (P1Fail || P2Fail)
+        {
+            if (P1Fail)
+            {
+                Obstacle1.GetComponent<SpriteRenderer>().sprite = Explotion;
+                Obstacle2.GetComponent<SpriteRenderer>().sprite = Winner;
+            }
+
+            else if (P2Fail)
+            {
+                Obstacle2.GetComponent<SpriteRenderer>().sprite = Explotion;
+                Obstacle1.GetComponent<SpriteRenderer>().sprite = Winner;
+            }
+
+            if (P1Fail && P2Fail)
+            {
+                P2Fail = false;
+            }
+        }
+
+        else
+        {
+            UpdateObstacles();
+        }
 
         CheckPlayer1();
         CheckPlayer2();
@@ -219,12 +251,7 @@ public class Minigame_Police : AMiniGame
                 P1Score++;
                 p1HitNotes++;
 
-                print(
-                    "P1 HIT! Score: " +
-                    P1Score +
-                    " | Difference: " +
-                    difference
-                );
+                P1Winner = true;
 
                 P1CurrentNote++;
             }
@@ -272,12 +299,7 @@ public class Minigame_Police : AMiniGame
                 P2Score++;
                 p2HitNotes++;
 
-                print(
-                    "P2 HIT! Score: " +
-                    P2Score +
-                    " | Difference: " +
-                    difference
-                );
+                P2Winner = true;
 
                 P2CurrentNote++;
             }
