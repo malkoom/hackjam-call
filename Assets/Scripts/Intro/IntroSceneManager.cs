@@ -55,6 +55,8 @@ public class IntroSceneManager : MonoBehaviour
 
     private IEnumerator ShowStartButtonAfterDoorCloses()
     {
+        yield return new WaitForSeconds(4);
+
         CloseDoor();
 
         float closeDuration =
@@ -89,7 +91,7 @@ public class IntroSceneManager : MonoBehaviour
             startGameButton.interactable = false;
             startGameButton.gameObject.SetActive(false);
         }
-        SceneManager.LoadScene(gameSceneName);
+        SceneManager.LoadScene(0);
     }
 
     private IEnumerator OpenDoorThenLoadGame()

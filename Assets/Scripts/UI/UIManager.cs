@@ -151,12 +151,19 @@ public class UIManager : MonoBehaviour
 
     public void ShowGarage()
     {
+        if (garage == null)
+        {
+            Debug.LogWarning("No se ha asignado el objeto Garaje en UIManager.");
+            return;
+        }
+
         garage.SetActive(true);
     }
 
     public void HideGarage()
     {
-        garage.SetActive(false);
+        if (garage != null)
+            garage.SetActive(false);
     }
 
     public void OpenDoor() => doorController.Open();

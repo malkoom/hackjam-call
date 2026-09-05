@@ -133,11 +133,7 @@ namespace FMODUnity
 
         internal override FMOD.THREAD_STACK_SIZE GetStackSize()
         {
-#if UNITY_EDITOR_LINUX
-            return PlatformLinux.staticGetStackSize();
-#else
             return FMOD.THREAD_STACK_SIZE.DEFAULT;
-#endif
         }
     }
 }

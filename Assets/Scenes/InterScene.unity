@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 8e014ece03fa41f4f89e4385cd827940, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -242,7 +242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: 'minigameSetup.Array.data[3].minigameScenes.Array.data[1]'
-      value: Minigame Squid Game
+      value: Minigame SquidGame
       objectReference: {fileID: 0}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: 'minigameSetup.Array.data[4].minigameScenes.Array.data[0]'
@@ -413,6 +413,10 @@ PrefabInstance:
     - target: {fileID: 7885784964942997057, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9005711454843113275, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -217
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

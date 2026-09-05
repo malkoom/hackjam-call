@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float fadeInDelay = 0.5f;
 
+    [SerializeField]
+    [Tooltip("Escena que contiene el garaje entre minijuegos.")]
+    private string intermissionSceneName = "InterScene";
+
     private Dictionary<Piece, List<string>> minigameSceneDictionary =
         new Dictionary<Piece, List<string>>();
 
@@ -159,19 +163,39 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FeedBackRoutine()
     {
-        UIManager.Singleton.CloseDoor();
+        UIManager ui = UIManager.Singleton;
+        if (ui == null)
+        {
+            Debug.LogError("No hay un UIManager disponible para mostrar el garaje.");
+            yield break;
+        }
 
-        yield return new WaitForSeconds(fadeInDelay);
+        ui.CloseDoor();
 
-        UIManager.Singleton.ShowGarage();
-        UIManager.Singleton.HideMinigameText();
-
-        SceneManager.LoadScene(0);
-
-        UIManager.Singleton.OpenDoor();
+        // Esperamos a que la puerta cubra el minijuego antes de cambiar de escena.
         yield return new WaitForSeconds(fadeOutDelay);
 
-        float duration = UIManager.Singleton.AssignCurrentPieceToPlayer(currentWinner);
+        // No usar el índice de Build Settings: puede cambiar y cargar una escena
+        // que no contenga el garaje.
+        SceneManager.LoadScene(intermissionSceneName);
+        yield return new WaitForEndOfFrame();
+
+        ui = UIManager.Singleton;
+        if (ui == null)
+        {
+            Debug.LogError("No se pudo recuperar el UIManager al cargar la escena del garaje.");
+            yield break;
+        }
+
+        // Activarlo después de cargar la escena garantiza que llega a renderizarse
+        // antes de abrir la puerta.
+        ui.ShowGarage();
+        ui.HideMinigameText();
+
+        ui.OpenDoor();
+        yield return new WaitForSeconds(fadeInDelay);
+
+        float duration = ui.AssignCurrentPieceToPlayer(currentWinner);
         yield return new WaitForSeconds(duration + 1);
 
         StartCoroutine(LoadNextMinigameRoutine());

@@ -2257,12 +2257,16 @@ PrefabInstance:
       value: Taller_Menu
       objectReference: {fileID: 0}
     - target: {fileID: 7670615599487773630, guid: 072266bf86ca23642b572eb7240333d0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 663.58264
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670615599487773630, guid: 072266bf86ca23642b572eb7240333d0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.16
       objectReference: {fileID: 0}
     - target: {fileID: 7670615599487773630, guid: 072266bf86ca23642b572eb7240333d0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.773
+      value: 3.2770443
       objectReference: {fileID: 0}
     - target: {fileID: 7670615599487773630, guid: 072266bf86ca23642b572eb7240333d0, type: 3}
       propertyPath: m_LocalPosition.z
