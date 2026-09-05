@@ -25,10 +25,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Transición")]
     [SerializeField]
-    private float fadeOutDelay = 0.75f;
+    private float fadeOutDelay = 0.5f;
 
     [SerializeField]
-    private float fadeInDelay = 0.75f;
+    private float fadeInDelay = 0.5f;
 
     private Dictionary<Piece, List<string>> minigameSceneDictionary =
         new Dictionary<Piece, List<string>>();
@@ -119,13 +119,16 @@ public class GameManager : MonoBehaviour
 
     public void StartFeedbackSequence()
     {
-        //1. Bajamos la puerta.
+        StopAllCoroutines();
+        StartCoroutine(FeedBackRoutine());
     }
 
     private IEnumerator FeedBackRoutine()
     {
         UIManager.Singleton.CloseDoor();
         yield return new WaitForSeconds(fadeInDelay);
+
+        UIManager.Singleton.ShowGarage();
 
         UIManager.Singleton.OpenDoor();
         yield return new WaitForSeconds(fadeOutDelay);
@@ -141,6 +144,7 @@ public class GameManager : MonoBehaviour
             UIManager.Singleton.CloseDoor();
 
         yield return new WaitForSeconds(fadeOutDelay);
+        UIManager.Singleton.HideGarage();
 
         SceneManager.LoadScene(nextScene);
 

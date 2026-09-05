@@ -7,7 +7,7 @@ public class DoorController : MonoBehaviour
     private Transform doorTransform;
 
     [SerializeField]
-    private float transitionDuration = 0.5f;
+    public float TransitionDuration = 0.5f;
 
     [SerializeField]
     private float minY = 0f;
@@ -44,10 +44,10 @@ public class DoorController : MonoBehaviour
 
         Vector3 currentPos = doorTransform.localPosition;
 
-        while (elapsedTime < transitionDuration)
+        while (elapsedTime < TransitionDuration)
         {
             elapsedTime += Time.deltaTime;
-            float newY = Mathf.Lerp(startY, targetY, elapsedTime / transitionDuration);
+            float newY = Mathf.Lerp(startY, targetY, elapsedTime / TransitionDuration);
 
             doorTransform.localPosition = new Vector3(currentPos.x, newY, currentPos.z);
             yield return null;
