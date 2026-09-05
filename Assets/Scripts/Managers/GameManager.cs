@@ -33,10 +33,12 @@ public class GameManager : MonoBehaviour
     private Dictionary<Piece, List<string>> minigameSceneDictionary =
         new Dictionary<Piece, List<string>>();
 
+    [SerializeField]
     private Piece currentPiece;
-    private Player currentWinner;
+    private int currentWinner;
     public Player player1;
     public Player player2;
+    public bool PlayerInstanced;
 
     private void Awake()
     {
@@ -48,6 +50,8 @@ public class GameManager : MonoBehaviour
 
         Singleton = this;
         DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(player1);
+        DontDestroyOnLoad(player2);
         InitializeDictionary();
     }
 
@@ -95,18 +99,7 @@ public class GameManager : MonoBehaviour
 
     public void SetWinner(int player, Piece piece)
     {
-        if (player == 1)
-        {
-            currentWinner = player1;
-        }
-        else if (player == 2)
-        {
-            currentWinner = player2;
-        }
-        else
-        {
-            Debug.LogError("Numero de player no existe");
-        }
+        currentWinner = player;
         if (piece != null)
             currentPiece = piece;
     }
@@ -132,6 +125,14 @@ public class GameManager : MonoBehaviour
 
         UIManager.Singleton.OpenDoor();
         yield return new WaitForSeconds(fadeOutDelay);
+
+        float duration = UIManager.Singleton.AssignPieceToPlayer(
+            currentWinner,
+            currentPiece.PieceTexture
+        );
+        yield return new WaitForSeconds(duration);
+
+        StartCoroutine(LoadNextMinigameRoutine());
     }
 
     private IEnumerator LoadNextMinigameRoutine()

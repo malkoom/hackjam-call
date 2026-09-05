@@ -7,7 +7,7 @@ public class ImageFlyController : MonoBehaviour
 {
     [SerializeField]
     private GameObject imageObject;
-    public Transform InitialTransform;
+    public Vector2 InitialPos;
 
     [SerializeField]
     Transform player1;
@@ -18,16 +18,12 @@ public class ImageFlyController : MonoBehaviour
     [SerializeField]
     private float travelDuration = 0.6f;
 
-    private SpriteRenderer spriteRenderer;
+    private Image image;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    private void Start()
-    {
-        InitialTransform = transform;
+        image = GetComponent<Image>();
+        InitialPos = new Vector2(transform.position.x, transform.position.y);
     }
 
     private void Reset()
@@ -38,19 +34,15 @@ public class ImageFlyController : MonoBehaviour
     /// <summary>
     /// Inicia el trayecto entre dos Transforms y oculta la imagen al llegar.
     /// </summary>
-    public void FlyAndHide(int destination, Sprite sprite)
+    public float FlyAndHide(int destination, Sprite sprite)
     {
-        spriteRenderer.sprite = sprite;
+        gameObject.SetActive(true);
+        image.sprite = sprite;
         Transform dest = (destination == 1) ? player1 : player2;
         StopAllCoroutines();
-        StartCoroutine(
-            FlyRoutine(
-                InitialTransform.position,
-                dest.position,
-                InitialTransform.rotation,
-                dest.rotation
-            )
-        );
+        StartCoroutine(FlyRoutine(InitialPos, dest.position, dest.rotation, dest.rotation));
+
+        return travelDuration;
     }
 
     private IEnumerator FlyRoutine(
@@ -84,5 +76,6 @@ public class ImageFlyController : MonoBehaviour
 
         // Desaparece al completarse
         imageObject.SetActive(false);
+        imageObject.transform.position = InitialPos;
     }
 }

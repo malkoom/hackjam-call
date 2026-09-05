@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 16597509}
   - component: {fileID: 16597508}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -638,7 +638,7 @@ GameObject:
   - component: {fileID: 1343648884}
   - component: {fileID: 1343648883}
   m_Layer: 0
-  m_Name: Player (1)
+  m_Name: Player2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -877,7 +877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   minigameSetup:
   - piece:
-      PieceTexture: {fileID: 0}
+      PieceTexture: {fileID: 8980255070652260471, guid: 191fc07e54f9b53489ab431407d20c1c, type: 3}
       PieceName: "Aler\xF3n"
       BoostType: 0
       BodyPart: 0
@@ -887,6 +887,12 @@ MonoBehaviour:
     - Minigame Snail
   fadeOutDelay: 0.25
   fadeInDelay: 0.25
+  currentPiece:
+    PieceTexture: {fileID: 0}
+    PieceName: Null Piece
+    BoostType: 0
+    BodyPart: 0
+    Value: 0
   player1: {fileID: 16597508}
   player2: {fileID: 1343648883}
 --- !u!4 &1679781075
@@ -1024,10 +1030,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ImageFlyController
   imageObject: {fileID: 1879166378}
-  InitialTransform: {fileID: 0}
-  player1: {fileID: 0}
-  player2: {fileID: 0}
-  travelDuration: 0.6
+  InitialPos: {x: 0, y: 0}
+  player1: {fileID: 417665395}
+  player2: {fileID: 2005415156}
+  travelDuration: 1
 --- !u!114 &1879166381
 MonoBehaviour:
   m_ObjectHideFlags: 0
