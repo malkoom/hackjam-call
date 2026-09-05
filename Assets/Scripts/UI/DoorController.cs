@@ -70,6 +70,7 @@ public class DoorController : MonoBehaviour
 
         // Posición final asegurada
         doorTransform.localPosition = new Vector3(currentPos.x, targetY, currentPos.z);
+
     }
 
     private IEnumerator ShakeCamera()
@@ -109,7 +110,6 @@ public class DoorController : MonoBehaviour
 
             if (targetCanvas != null)
                 targetCanvas.anchoredPosition = initialCanvasPosition + offset * canvasShakeStrength;
-
             yield return null;
         }
 
