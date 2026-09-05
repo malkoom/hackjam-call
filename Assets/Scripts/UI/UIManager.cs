@@ -7,7 +7,12 @@ public class UIManager : MonoBehaviour
     [Header("Submódulos de UI")]
     [SerializeField]
     private DoorController doorController;
+
+    [SerializeField]
     private ImageFlyController pieceToPlayer;
+
+    [SerializeField]
+    private GameObject garage;
 
     private void Awake()
     {
@@ -33,7 +38,16 @@ public class UIManager : MonoBehaviour
         pieceToPlayer.FlyAndHide(destination, sprite);
     }
 
-    // Métodos públicos que otros scripts o eventos de botones pueden invocar
+    public void ShowGarage()
+    {
+        garage.SetActive(true);
+    }
+
+    public void HideGarage()
+    {
+        garage.SetActive(false);
+    }
+
     public void OpenDoor() => doorController.Open();
 
     public void CloseDoor() => doorController.Close();

@@ -28,7 +28,7 @@ public class MiniGame1 : AMiniGame
 
     public float WinnerPause = 0.5f;
 
-    public float EndDelay = 1f;
+    public float EndDelay = 0.3f;
 
     private float currentTimer = 0f;
 
@@ -86,11 +86,9 @@ public class MiniGame1 : AMiniGame
         // POSITIONS
         // -------------------------
 
-        CarObject.transform.position =
-        new Vector3(-1.5f, 1f - 0.159f, -8f);
+        CarObject.transform.position = new Vector3(-1.5f, 1f - 0.159f, -8f);
 
-         CarObject2.transform.position =
-        new Vector3(1.5f, 1f - 0.159f, -8f);
+        CarObject2.transform.position = new Vector3(1.5f, 1f - 0.159f, -8f);
 
         // Change P2 car sprite
         CarObject.GetComponent<SpriteRenderer>().sprite = GameManager.Singleton.player1.Skin;
