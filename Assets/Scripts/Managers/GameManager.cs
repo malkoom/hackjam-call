@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Piece currentPiece;
+    public Sprite CurrentPieceSprite => currentPiece != null ? currentPiece.PieceTexture : null;
+
     private int currentWinner;
     public Player player1;
     public Player player2;
@@ -59,7 +61,17 @@ public class GameManager : MonoBehaviour
         InitializeDictionary();
     }
 
-    private void Start() { }
+    private void Start()
+    {
+        StartCoroutine(StartFirstMinigameRoutine());
+    }
+
+    private IEnumerator StartFirstMinigameRoutine()
+    {
+        // Espera a que la UI de la escena se inicialice antes de iniciar la transición.
+        yield return null;
+        StartNextMinigame();
+    }
 
     private void InitializeDictionary()
     {
@@ -119,7 +131,10 @@ public class GameManager : MonoBehaviour
     public void SetWinner(int player, Piece piece)
     {
         currentWinner = player;
-        if (piece != null)
+
+        // La pieza obtenida en PullMinigame es la que debe entregarse. Solo se
+        // reemplaza si el minijuego proporciona una pieza configurada con sprite.
+        if (piece != null && piece.PieceTexture != null)
             currentPiece = piece;
     }
 
@@ -149,10 +164,7 @@ public class GameManager : MonoBehaviour
         UIManager.Singleton.OpenDoor();
         yield return new WaitForSeconds(fadeOutDelay);
 
-        float duration = UIManager.Singleton.AssignPieceToPlayer(
-            currentWinner,
-            currentPiece.PieceTexture
-        );
+        float duration = UIManager.Singleton.AssignCurrentPieceToPlayer(currentWinner);
         yield return new WaitForSeconds(duration + 1);
 
         StartCoroutine(LoadNextMinigameRoutine());
@@ -166,7 +178,7 @@ public class GameManager : MonoBehaviour
 
         UIManager.Singleton.CloseDoor();
         yield return new WaitForSeconds(fadeOutDelay);
-        UIManager.Singleton.SetPieceAndShow(currentPiece.PieceTexture);
+        UIManager.Singleton.SetCurrentPieceAndShow();
 
         minigameDescriptions.TryGetValue(nextScene, out string description);
         UIManager.Singleton.SetMinigameTextAndShow(description ?? string.Empty);

@@ -1,10 +1,10 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Singleton;
+    private static bool openDoorOnStart;
 
     [Header("Submódulos de UI")]
     [SerializeField]
@@ -43,22 +43,53 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Start() { }
+    private void Start()
+    {
+        if (!openDoorOnStart)
+            return;
+
+        openDoorOnStart = false;
+        OpenDoor();
+    }
+
+    public static void RequestDoorOpenOnNextScene()
+    {
+        openDoorOnStart = true;
+    }
 
     public float AssignPieceToPlayer(int destination, Sprite sprite)
     {
         return pieceToPlayer.FlyAndHide(destination, sprite);
     }
 
+    public float AssignCurrentPieceToPlayer(int destination)
+    {
+        Sprite currentPieceSprite = GetCurrentPieceSprite();
+        return currentPieceSprite != null
+            ? AssignPieceToPlayer(destination, currentPieceSprite)
+            : 0f;
+    }
+
     public void SetPieceAndShow(Sprite sprite)
     {
-        pieceToPlayer.GetComponent<Image>().sprite = sprite;
+        if (garage != null)
+            garage.SetActive(true);
+
+        // El controlador puede estar en un padre de la imagen dentro del garaje.
         pieceToPlayer.gameObject.SetActive(true);
+        pieceToPlayer.Show(sprite);
+    }
+
+    public void SetCurrentPieceAndShow()
+    {
+        Sprite currentPieceSprite = GetCurrentPieceSprite();
+        if (currentPieceSprite != null)
+            SetPieceAndShow(currentPieceSprite);
     }
 
     public void HidePiece()
     {
-        pieceToPlayer.gameObject.SetActive(false);
+        pieceToPlayer.Hide();
     }
 
     public void SetMinigameTextAndShow(string text)
@@ -110,10 +141,10 @@ public class UIManager : MonoBehaviour
     {
         while (true)
         {
-            float offsetY = Mathf.Sin(Time.unscaledTime * minigameTextWaveSpeed)
-                * minigameTextWaveAmplitude;
-            minigameTextTransform.anchoredPosition = minigameTextInitialPosition
-                + Vector2.up * offsetY;
+            float offsetY =
+                Mathf.Sin(Time.unscaledTime * minigameTextWaveSpeed) * minigameTextWaveAmplitude;
+            minigameTextTransform.anchoredPosition =
+                minigameTextInitialPosition + Vector2.up * offsetY;
             yield return null;
         }
     }
@@ -131,4 +162,13 @@ public class UIManager : MonoBehaviour
     public void OpenDoor() => doorController.Open();
 
     public void CloseDoor() => doorController.Close();
+
+    private Sprite GetCurrentPieceSprite()
+    {
+        if (GameManager.Singleton != null && GameManager.Singleton.CurrentPieceSprite != null)
+            return GameManager.Singleton.CurrentPieceSprite;
+
+        Debug.LogWarning("No hay una pieza actual con sprite en GameManager.");
+        return null;
+    }
 }

@@ -20,16 +20,10 @@ public class DoorController : MonoBehaviour
     private Camera cameraToShake;
 
     [SerializeField]
-    private RectTransform canvasToShake;
+    private float shakeDuration = 0.12f;
 
     [SerializeField]
-    private float shakeDuration = 0.3f;
-
-    [SerializeField]
-    private float shakeStrength = 0.35f;
-
-    [SerializeField]
-    private float canvasShakeStrength = 28f;
+    private float shakeStrength = 0.15f;
 
     private void Reset()
     {
@@ -39,23 +33,27 @@ public class DoorController : MonoBehaviour
     public void Open()
     {
         StopAllCoroutines();
-        StartCoroutine(MoveDoor(maxY));
+        StartCoroutine(MoveDoor(maxY, false));
     }
 
     public void Close()
     {
         StopAllCoroutines();
-        StartCoroutine(MoveDoor(minY));
-        StartCoroutine(ShakeCamera());
+        StartCoroutine(MoveDoor(minY, true));
     }
 
-    private IEnumerator MoveDoor(float targetY)
+    private IEnumerator MoveDoor(float targetY, bool shakeWhenFinished)
     {
         float elapsedTime = 0f;
         float startY = doorTransform.localPosition.y;
 
         if (Mathf.Approximately(startY, targetY))
+        {
+            if (shakeWhenFinished)
+                yield return StartCoroutine(ShakeCamera());
+
             yield break;
+        }
 
         Vector3 currentPos = doorTransform.localPosition;
 
@@ -70,53 +68,30 @@ public class DoorController : MonoBehaviour
 
         // Posición final asegurada
         doorTransform.localPosition = new Vector3(currentPos.x, targetY, currentPos.z);
+
+        if (shakeWhenFinished)
+            yield return StartCoroutine(ShakeCamera());
     }
 
     private IEnumerator ShakeCamera()
     {
         Camera targetCamera = cameraToShake != null ? cameraToShake : Camera.main;
-        Canvas parentCanvas = doorTransform.GetComponentInParent<Canvas>();
-        RectTransform targetCanvas = canvasToShake != null
-            ? canvasToShake
-            : parentCanvas != null
-                ? parentCanvas.transform as RectTransform
-                : null;
-
-        if (shakeDuration <= 0f || (targetCamera == null && targetCanvas == null))
+        if (targetCamera == null || shakeDuration <= 0f || shakeStrength <= 0f)
             yield break;
 
-        Transform cameraTransform = targetCamera != null ? targetCamera.transform : null;
-        Vector3 initialCameraPosition = cameraTransform != null
-            ? cameraTransform.localPosition
-            : Vector3.zero;
-        Vector2 initialCanvasPosition = targetCanvas != null
-            ? targetCanvas.anchoredPosition
-            : Vector2.zero;
+        Transform cameraTransform = targetCamera.transform;
+        Vector3 initialPosition = cameraTransform.localPosition;
         float elapsedTime = 0f;
 
         while (elapsedTime < shakeDuration)
         {
             elapsedTime += Time.deltaTime;
-            float falloff = 1f - elapsedTime / shakeDuration;
-            Vector2 offset = Random.insideUnitCircle * falloff;
-
-            if (cameraTransform != null)
-                cameraTransform.localPosition = initialCameraPosition + new Vector3(
-                    offset.x * shakeStrength,
-                    offset.y * shakeStrength,
-                    0f
-                );
-
-            if (targetCanvas != null)
-                targetCanvas.anchoredPosition = initialCanvasPosition + offset * canvasShakeStrength;
-
+            float intensity = shakeStrength * (1f - elapsedTime / shakeDuration);
+            Vector2 offset = Random.insideUnitCircle * intensity;
+            cameraTransform.localPosition = initialPosition + new Vector3(offset.x, offset.y, 0f);
             yield return null;
         }
 
-        if (cameraTransform != null)
-            cameraTransform.localPosition = initialCameraPosition;
-
-        if (targetCanvas != null)
-            targetCanvas.anchoredPosition = initialCanvasPosition;
+        cameraTransform.localPosition = initialPosition;
     }
 }
