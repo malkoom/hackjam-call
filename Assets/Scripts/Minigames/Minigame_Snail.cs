@@ -11,6 +11,9 @@ public class Minigame_Snail : AMiniGame
     public Sprite Snail_Sprite1;
     public Sprite Snail_Sprite2;
 
+    public Sprite Snail_Back_Sprite1;
+    public Sprite Snail_Back_Sprite2;
+
     public Vector3[] InitialPos = new Vector3[2];
     public float FinalPosX;
 
@@ -18,6 +21,9 @@ public class Minigame_Snail : AMiniGame
     public GameObject Snail2;
 
     private bool ActiveGame = true;
+
+    //[Header("Keys")]
+    //private Keyboard[] player1KeySequence = { Keyboard.current.upArrowKey, Keyboard.current.rightArrowKey }
 
 
     void Start()
