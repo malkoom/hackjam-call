@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject garage;
+
+    [SerializeField]
+    private Text minigameText;
 
     private void Awake()
     {
@@ -36,6 +40,28 @@ public class UIManager : MonoBehaviour
     public float AssignPieceToPlayer(int destination, Sprite sprite)
     {
         return pieceToPlayer.FlyAndHide(destination, sprite);
+    }
+
+    public void SetPieceAndShow(Sprite sprite)
+    {
+        pieceToPlayer.GetComponent<Image>().sprite = sprite;
+        pieceToPlayer.gameObject.SetActive(true);
+    }
+
+    public void HidePiece()
+    {
+        pieceToPlayer.gameObject.SetActive(false);
+    }
+
+    public void SetMinigameTextAndShow(string text)
+    {
+        minigameText.gameObject.SetActive(true);
+        minigameText.text = text;
+    }
+
+    public void HideMinigameText()
+    {
+        minigameText.gameObject.SetActive(false);
     }
 
     public void ShowGarage()
