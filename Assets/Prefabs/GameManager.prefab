@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2015812547480055211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4502436889896686874}
+  - component: {fileID: 4796336116776206341}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4502436889896686874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015812547480055211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 782.0197, y: 0.00001, z: -7039.072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4796336116776206341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015812547480055211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77dd77c03d32413dc89043e90e18f698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  minigameSetup:
+  - piece:
+      PieceTexture: {fileID: 2682434556049354389, guid: 4e3fb53a87bfb6306bcd71e5e166b01a, type: 3}
+      PieceName: "Aler\xF3n"
+      BoostType: 1
+      BodyPart: 2
+      Value: 5
+    minigameScenes:
+    - Minigame Sumo
+    - Minigame Snail
+    descriptions:
+    - SMASH!
+    - ROLL!
+  - piece:
+      PieceTexture: {fileID: 2746636116169895124, guid: 8ac4fd21346743f61acf03e09986d86a, type: 3}
+      PieceName: Carroceria
+      BoostType: 1
+      BodyPart: 3
+      Value: 5
+    minigameScenes: []
+    descriptions:
+    - SMASH!
+    - ROLL!
+  fadeOutDelay: 0.5
+  fadeInDelay: 0.5
+  currentPiece:
+    PieceTexture: {fileID: 0}
+    PieceName: Null Piece
+    BoostType: 0
+    BodyPart: 0
+    Value: 0
+  player1: {fileID: 0}
+  player2: {fileID: 0}

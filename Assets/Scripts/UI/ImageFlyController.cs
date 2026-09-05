@@ -29,6 +29,7 @@ public class ImageFlyController : MonoBehaviour
     private Vector3 initialLocalPosition;
     private Quaternion initialLocalRotation;
     private Vector3 initialLocalScale;
+    private Vector3 initialImageLocalScale;
     private Vector2 initialAnchoredPosition;
     private RectTransform imageRectTransform;
     private Coroutine previewPulseCoroutine;
@@ -43,6 +44,7 @@ public class ImageFlyController : MonoBehaviour
         initialLocalPosition = transform.localPosition;
         initialLocalRotation = transform.localRotation;
         initialLocalScale = transform.localScale;
+        initialImageLocalScale = imageTransform.localScale;
         imageRectTransform = transform as RectTransform;
         if (imageRectTransform != null)
             initialAnchoredPosition = imageRectTransform.anchoredPosition;
@@ -171,6 +173,11 @@ public class ImageFlyController : MonoBehaviour
         transform.localRotation = initialLocalRotation;
         transform.localScale = initialLocalScale;
 
+        // La pieza puede ser hija de una Image usada como fondo. Cada una
+        // conserva su propia escala base, en vez de reutilizar la del padre.
+        if (imageTransform != transform)
+            imageTransform.localScale = initialImageLocalScale;
+
         if (imageRectTransform != null)
             imageRectTransform.anchoredPosition = initialAnchoredPosition;
     }
@@ -178,7 +185,7 @@ public class ImageFlyController : MonoBehaviour
     private void StartPreviewPulse()
     {
         StopPreviewPulse();
-        transform.localScale = initialLocalScale;
+        ResetToInitialTransform();
         previewPulseCoroutine = StartCoroutine(AnimatePreviewPulse());
     }
 
@@ -188,7 +195,7 @@ public class ImageFlyController : MonoBehaviour
         {
             StopCoroutine(previewPulseCoroutine);
             previewPulseCoroutine = null;
-            transform.localScale = initialLocalScale;
+            ResetToInitialTransform();
         }
     }
 
@@ -198,7 +205,12 @@ public class ImageFlyController : MonoBehaviour
         {
             float scaleMultiplier =
                 1f + Mathf.Sin(Time.unscaledTime * previewPulseSpeed) * previewPulseAmplitude;
-            imageTransform.localScale = initialLocalScale * scaleMultiplier;
+            transform.localScale = initialLocalScale * scaleMultiplier;
+
+            // Aunque sea hija del fondo, también se anima su escala local para
+            // que ambas imágenes participen explícitamente en el pulso.
+            if (imageTransform != transform)
+                imageTransform.localScale = initialImageLocalScale * scaleMultiplier;
             yield return null;
         }
     }
