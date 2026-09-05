@@ -28,9 +28,9 @@ public class UIManager : MonoBehaviour
         doorController.Close();
     }
 
-    public void AssignPieceToPlayer(Transform playerTransform, Sprite sprite)
+    public void AssignPieceToPlayer(int destination, Sprite sprite)
     {
-        pieceToPlayer.FlyAndHide(pieceToPlayer.InitialTransform, playerTransform, sprite);
+        pieceToPlayer.FlyAndHide(destination, sprite);
     }
 
     // Métodos públicos que otros scripts o eventos de botones pueden invocar

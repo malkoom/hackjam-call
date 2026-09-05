@@ -38,12 +38,18 @@ public class ImageFlyController : MonoBehaviour
     /// <summary>
     /// Inicia el trayecto entre dos Transforms y oculta la imagen al llegar.
     /// </summary>
-    public void FlyAndHide(Transform origin, Transform destination, Sprite sprite)
+    public void FlyAndHide(int destination, Sprite sprite)
     {
         spriteRenderer.sprite = sprite;
+        Transform dest = (destination == 1) ? player1 : player2;
         StopAllCoroutines();
         StartCoroutine(
-            FlyRoutine(origin.position, destination.position, origin.rotation, destination.rotation)
+            FlyRoutine(
+                InitialTransform.position,
+                dest.position,
+                InitialTransform.rotation,
+                dest.rotation
+            )
         );
     }
 

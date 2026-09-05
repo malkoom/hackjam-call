@@ -96,12 +96,17 @@ public class GameManager : MonoBehaviour
     public void SetWinner(int player, Piece piece)
     {
         if (player == 1)
+        {
             currentWinner = player1;
+        }
         else if (player == 2)
+        {
             currentWinner = player2;
+        }
         else
+        {
             Debug.LogError("Numero de player no existe");
-
+        }
         if (piece != null)
             currentPiece = piece;
     }
@@ -121,8 +126,6 @@ public class GameManager : MonoBehaviour
     {
         UIManager.Singleton.CloseDoor();
         yield return new WaitForSeconds(fadeInDelay);
-
-        // Background garaje
 
         UIManager.Singleton.OpenDoor();
         yield return new WaitForSeconds(fadeOutDelay);
