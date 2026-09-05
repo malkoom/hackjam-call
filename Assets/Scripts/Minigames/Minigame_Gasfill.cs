@@ -140,6 +140,6 @@ public class Minigame_Gasfill : AMiniGame
     }
     public override void EndMiniGame()
     {
-        throw new System.NotImplementedException();
+        ReturnToMiddleScene();
     }
 }

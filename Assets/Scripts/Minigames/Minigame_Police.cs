@@ -326,5 +326,6 @@ public class Minigame_Police : AMiniGame
 
     public override void EndMiniGame()
     {
+        ReturnToMiddleScene();
     }
 }
