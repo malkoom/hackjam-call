@@ -75,6 +75,9 @@ public class Minigame_Snail : AMiniGame
 
     public override void EndMiniGame()
     {
+        Destroy(Snail);
+        Destroy(Snail2);
+
         ReturnToMiddleScene();
     }
 }
