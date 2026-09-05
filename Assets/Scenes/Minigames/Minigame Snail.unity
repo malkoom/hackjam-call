@@ -185,7 +185,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 585679349008182817, guid: b31c390bee8af4b408cda7b8e1170741, type: 3}
+  m_Sprite: {fileID: 1286379702372989069, guid: b9051a56a6a4d4949a310b33384ad9c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -205,12 +205,12 @@ Transform:
   m_GameObject: {fileID: 102926144}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -77.196915, y: 0, z: -123.415405}
+  m_LocalPosition: {x: -3.6299973, y: 0, z: -6.9400024}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 619956077}
-  m_Father: {fileID: 247713267}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &200405764
 GameObject:
@@ -369,8 +369,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 102926146}
-  - {fileID: 329104727}
   - {fileID: 665172380}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -393,8 +391,14 @@ MonoBehaviour:
     BoostType: 0
     BodyPart: 0
     Value: 0
-  Snail_Sprite1: {fileID: 585679349008182817, guid: b31c390bee8af4b408cda7b8e1170741, type: 3}
-  Snail_Sprite2: {fileID: -5694046526592975797, guid: 4d83050b2fb528d4588b6554af19ecfe, type: 3}
+  Baba: {fileID: 2967357128395071518, guid: e775a13f0edfb814d8dbf2f7e307ddbd, type: 3}
+  BabaTypes:
+  - {fileID: -3522072261416087302, guid: f5d60d79595f2664a9ab25c4e3ee4665, type: 3}
+  - {fileID: 7247068887693050766, guid: 01fcc416643f4b44b884035e93782279, type: 3}
+  - {fileID: 1199978240967344820, guid: cc58a5c3e60269f42b3db9844fc73316, type: 3}
+  - {fileID: 8263673692231748546, guid: a3adc8bc3c081de4b90e8bfda9dd7214, type: 3}
+  Snail_Sprite1: {fileID: 1286379702372989069, guid: b9051a56a6a4d4949a310b33384ad9c8, type: 3}
+  Snail_Sprite2: {fileID: -3633624849151710584, guid: b6650f49fe46f204e924481faee1c122, type: 3}
   Snail_Back_Sprite1: {fileID: 0}
   Snail_Back_Sprite2: {fileID: 0}
   InitialPos:
@@ -403,6 +407,13 @@ MonoBehaviour:
   FinalPosX: 4
   Snail: {fileID: 102926144}
   Snail2: {fileID: 329104725}
+  BabaOffsetX: -0.15
+  BabaLifetime: 3
+  BabaScale: 1
+  SquashAmount: 0.15
+  StretchAmount: 0.15
+  SquashDuration: 0.05
+  StretchDuration: 0.05
   key: {fileID: 619956076}
   key2: {fileID: 924857572}
   p1KeysDictionary:
@@ -489,7 +500,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5694046526592975797, guid: 4d83050b2fb528d4588b6554af19ecfe, type: 3}
+  m_Sprite: {fileID: -3633624849151710584, guid: b6650f49fe46f204e924481faee1c122, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -509,12 +520,12 @@ Transform:
   m_GameObject: {fileID: 329104725}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -77.56692, y: 2, z: -122.9754}
+  m_LocalPosition: {x: -4, y: 2, z: -6.5}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 924857573}
-  m_Father: {fileID: 247713267}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &468014046
 GameObject:
@@ -811,7 +822,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -8056689159743164885, guid: c0754841e0131bd45a701d83d6b6caf5, type: 3}
+  m_Sprite: {fileID: -2747555275103207949, guid: e294fc84eeb24e746a5d959d1217f838, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -935,4 +946,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 468014049}
   - {fileID: 200405766}
+  - {fileID: 102926146}
+  - {fileID: 329104727}
   - {fileID: 247713267}

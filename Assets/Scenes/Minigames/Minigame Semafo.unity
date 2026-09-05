@@ -119,98 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &74242213
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 74242215}
-  - component: {fileID: 74242214}
-  m_Layer: 0
-  m_Name: HighwayBg_0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &74242214
-SpriteRenderer:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74242213}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: 4133123677598291125, guid: 4cd4e97bcf06dc14494cd597d66a150e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 19.2, y: 10.8}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
-  m_BlendShapeWeights: []
---- !u!4 &74242215
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74242213}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9, z: 5.12}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &112305382
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,8 +155,8 @@ Camera:
   m_GameObject: {fileID: 112305382}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.7254902, g: 0.882353, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -532,7 +440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 657d56bb7061311418442b1b7c47eb85, type: 3}
+  m_Texture: {fileID: 2800000, guid: ae3be44ed3912e048b4cc4932692b778, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -771,14 +679,14 @@ MonoBehaviour:
     BodyPart: 0
     Value: 1
   TimeLimit: 3
-  Winner: {fileID: 1044548876939114591, guid: 27d5237ede0050b4d9cee2164580092e, type: 3}
-  Explotion: {fileID: -7163690827094863213, guid: 0363a0e5bd95d49438c0b206b7171bd2, type: 3}
+  Winner: {fileID: -5755628323967690902, guid: c0807f5f9fc90b54295d94f04c9c5679, type: 3}
+  Explotion: {fileID: 8417227623302929915, guid: 7f3a6bd221a607045af89b8e944c5487, type: 3}
   Obstacle1: {fileID: 2014812777}
   Obstacle2: {fileID: 1353863496}
   ObstaclesSprites:
-  - Ready: {fileID: 1075393218611807986, guid: a871d0afc9c02634aafcae59a7fcbca6, type: 3}
-    Set: {fileID: -1589127558457284619, guid: e89391ba1f801d944813bcd75885fc83, type: 3}
-    Jump: {fileID: 8402952180012315380, guid: f50e5d68354784649822be24a66d8ae2, type: 3}
+  - Ready: {fileID: -9178187269208252745, guid: c02cb452b18bb154abfa08d7f572f80a, type: 3}
+    Set: {fileID: 5374523150068673569, guid: 50058d6a3b107da4bb40a1e52f54d4b9, type: 3}
+    Jump: {fileID: -5446954089374620398, guid: 621f956240ca61e4696bc23318f86372, type: 3}
   BPM: 120
   Notes:
   - HitTime: 2
@@ -822,10 +730,10 @@ PrefabInstance:
     - target: {fileID: 2562350458322181688, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 5290681845601432541, guid: bcffb5a0f41d4f74e9d2c1c2a056c82e, type: 3}
+      objectReference: {fileID: -9178187269208252745, guid: c02cb452b18bb154abfa08d7f572f80a, type: 3}
     - target: {fileID: 6294501035599234198, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.89
+      value: 6.89
       objectReference: {fileID: 0}
     - target: {fileID: 6294501035599234198, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -883,10 +791,10 @@ PrefabInstance:
     - target: {fileID: 2562350458322181688, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 5290681845601432541, guid: bcffb5a0f41d4f74e9d2c1c2a056c82e, type: 3}
+      objectReference: {fileID: -9178187269208252745, guid: c02cb452b18bb154abfa08d7f572f80a, type: 3}
     - target: {fileID: 6294501035599234198, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.09
+      value: -3.68
       objectReference: {fileID: 0}
     - target: {fileID: 6294501035599234198, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -947,6 +855,5 @@ SceneRoots:
   - {fileID: 1384478418}
   - {fileID: 2014812776}
   - {fileID: 1475823502}
-  - {fileID: 74242215}
   - {fileID: 1054728293}
   - {fileID: 1055563574}

@@ -16,7 +16,7 @@ public enum BodyPart //Partes del Coche
     WHEELS,
     TURBO,
     AILERON,
-    CHASIS,
+    BODYWORK,
 }
 
 public class Player : MonoBehaviour
