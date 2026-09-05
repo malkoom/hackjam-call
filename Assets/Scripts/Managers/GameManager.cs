@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
             "Nombre de las escenas que pueden otorgar esta pieza. Deben estar en Build Settings."
         )]
         public List<string> minigameScenes;
+
+        [Tooltip("Descripción de cada minijuego, en el mismo orden que minigameScenes.")]
         public List<string> descriptions;
     }
 
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour
 
     private Dictionary<Piece, List<string>> minigameSceneDictionary =
         new Dictionary<Piece, List<string>>();
+
+    private Dictionary<string, string> minigameDescriptions = new Dictionary<string, string>();
 
     [SerializeField]
     private Piece currentPiece;
@@ -55,22 +59,35 @@ public class GameManager : MonoBehaviour
         InitializeDictionary();
     }
 
-    private void Start()
-    {
-        StartNextMinigame();
-    }
+    private void Start() { }
 
     private void InitializeDictionary()
     {
         minigameSceneDictionary.Clear();
+        minigameDescriptions.Clear();
         foreach (var entry in minigameSetup)
         {
             if (entry.piece == null || entry.minigameScenes == null)
                 continue;
 
-            List<string> validScenes = entry
-                .minigameScenes.Where(sceneName => !string.IsNullOrWhiteSpace(sceneName))
-                .ToList();
+            List<string> validScenes = new List<string>();
+
+            for (int i = 0; i < entry.minigameScenes.Count; i++)
+            {
+                string sceneName = entry.minigameScenes[i];
+                if (string.IsNullOrWhiteSpace(sceneName))
+                    continue;
+
+                validScenes.Add(sceneName);
+
+                string description =
+                    entry.descriptions != null && i < entry.descriptions.Count
+                        ? entry.descriptions[i]
+                        : string.Empty;
+
+                if (!minigameDescriptions.ContainsKey(sceneName))
+                    minigameDescriptions.Add(sceneName, description);
+            }
 
             if (validScenes.Count > 0 && !minigameSceneDictionary.ContainsKey(entry.piece))
                 minigameSceneDictionary.Add(entry.piece, validScenes);
@@ -94,11 +111,9 @@ public class GameManager : MonoBehaviour
         currentPiece = availablePieces[Random.Range(0, availablePieces.Count)];
 
         List<string> availableScenes = minigameSceneDictionary[currentPiece];
+        string selectedScene = availableScenes[Random.Range(0, availableScenes.Count)];
 
-        int aux = Random.Range(0, availableScenes.Count);
-
-        UIManager.Singleton.SetMinigameTextAndShow()
-        return availableScenes[];
+        return selectedScene;
     }
 
     public void SetWinner(int player, Piece piece)
@@ -123,9 +138,11 @@ public class GameManager : MonoBehaviour
     private IEnumerator FeedBackRoutine()
     {
         UIManager.Singleton.CloseDoor();
+
         yield return new WaitForSeconds(fadeInDelay);
 
         UIManager.Singleton.ShowGarage();
+        UIManager.Singleton.HideMinigameText();
 
         UIManager.Singleton.OpenDoor();
         yield return new WaitForSeconds(fadeOutDelay);
@@ -146,7 +163,12 @@ public class GameManager : MonoBehaviour
             yield break;
 
         UIManager.Singleton.SetPieceAndShow(currentPiece.PieceTexture);
-        UIManager.Singleton.SetMinigameTextAndShow();
+
+        minigameDescriptions.TryGetValue(nextScene, out string description);
+        UIManager.Singleton.SetMinigameTextAndShow(description ?? string.Empty);
+
+        yield return new WaitForSeconds(1f);
+
         if (UIManager.Singleton != null)
             UIManager.Singleton.CloseDoor();
 

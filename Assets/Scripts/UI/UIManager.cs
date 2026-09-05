@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ public class UIManager : MonoBehaviour
     private GameObject garage;
 
     [SerializeField]
-    private Text minigameText;
+    private TMP_Text minigameText;
 
     private void Awake()
     {
@@ -55,12 +56,21 @@ public class UIManager : MonoBehaviour
 
     public void SetMinigameTextAndShow(string text)
     {
+        if (minigameText == null)
+        {
+            Debug.LogWarning("No se ha asignado el TMP_Text de descripción del minijuego en UIManager.");
+            return;
+        }
+
         minigameText.gameObject.SetActive(true);
         minigameText.text = text;
     }
 
     public void HideMinigameText()
     {
+        if (minigameText == null)
+            return;
+
         minigameText.gameObject.SetActive(false);
     }
 
