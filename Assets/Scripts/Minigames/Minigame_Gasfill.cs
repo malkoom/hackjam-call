@@ -46,7 +46,7 @@ public class Minigame_Gasfill : AMiniGame
             return;
         }
 
-        if (Keyboard.current.wKey.isPressed)
+        if (Keyboard.current.wKey.isPressed && !P1isReady)
         {
             Vector3 p1Pos = P1Tank.Fill.transform.position;
             p1Pos.y += 0.01f;
@@ -74,7 +74,7 @@ public class Minigame_Gasfill : AMiniGame
             P2Tank.Tank.transform.rotation = Quaternion.Euler(0,0,50);
         }
 
-            if (Keyboard.current.upArrowKey.isPressed)
+        if (Keyboard.current.upArrowKey.isPressed && !P2isReady)
         {
             Vector3 p2Pos = P2Tank.Fill.transform.position;
             p2Pos.y += 0.01f;
@@ -132,11 +132,6 @@ public class Minigame_Gasfill : AMiniGame
     float GetPercentage(float percentage)
     {
         return Mathf.Lerp(MinNMaxFill.x, MinNMaxFill.y, percentage / 100f);
-    }
-
-    float GetScorePercentage(float score)
-    {
-        return Mathf.InverseLerp(MinNMaxFill.x, MinNMaxFill.y, score) * 100f;
     }
     public override void EndMiniGame()
     {
