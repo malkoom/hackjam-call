@@ -303,7 +303,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 6b904049869ef484b84cec34f3226ae7, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -760,7 +760,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: e4bfffe024292d54a916e4687807652f, type: 2}
+  m_Texture: {fileID: 8400000, guid: 6b904049869ef484b84cec34f3226ae7, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
