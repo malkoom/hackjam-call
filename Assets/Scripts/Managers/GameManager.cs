@@ -144,6 +144,8 @@ public class GameManager : MonoBehaviour
         UIManager.Singleton.ShowGarage();
         UIManager.Singleton.HideMinigameText();
 
+        SceneManager.LoadScene(0);
+
         UIManager.Singleton.OpenDoor();
         yield return new WaitForSeconds(fadeOutDelay);
 
@@ -151,7 +153,7 @@ public class GameManager : MonoBehaviour
             currentWinner,
             currentPiece.PieceTexture
         );
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(duration + 1);
 
         StartCoroutine(LoadNextMinigameRoutine());
     }
@@ -162,17 +164,14 @@ public class GameManager : MonoBehaviour
         if (string.IsNullOrEmpty(nextScene))
             yield break;
 
+        UIManager.Singleton.CloseDoor();
+        yield return new WaitForSeconds(fadeOutDelay);
         UIManager.Singleton.SetPieceAndShow(currentPiece.PieceTexture);
 
         minigameDescriptions.TryGetValue(nextScene, out string description);
         UIManager.Singleton.SetMinigameTextAndShow(description ?? string.Empty);
 
-        yield return new WaitForSeconds(1f);
-
-        if (UIManager.Singleton != null)
-            UIManager.Singleton.CloseDoor();
-
-        yield return new WaitForSeconds(fadeOutDelay);
+        yield return new WaitForSeconds(1.5f);
         UIManager.Singleton.HideGarage();
 
         SceneManager.LoadScene(nextScene);

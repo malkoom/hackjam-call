@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/InterScene.unity
+    guid: b90efa75eb43cb488949ce9bf9f68aa2
+  - enabled: 1
     path: Assets/Scenes/Minigames/Minigame Sumo.unity
     guid: 626423f53d1ff6b4bb835d37a808317b
   - enabled: 1
