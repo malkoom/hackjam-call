@@ -147,5 +147,6 @@ public class Minigame_Squidgame : AMiniGame
     public override void EndMiniGame()
     {
         print("End");
+        ReturnToMiddleScene();
     }
 }

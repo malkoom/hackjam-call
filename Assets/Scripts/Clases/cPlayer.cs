@@ -17,6 +17,9 @@ public enum BodyPart //Partes del Coche
     TURBO,
     AILERON,
     BODYWORK,
+    GAS,
+    EXHAUST_PIPE,
+    LIGHTS
 }
 
 public class Player : MonoBehaviour
@@ -54,6 +57,10 @@ public class Player : MonoBehaviour
         PlayerBody.Add(BodyPart.AILERON, new Piece());
         PlayerBody.Add(BodyPart.TURBO, new Piece());
         PlayerBody.Add(BodyPart.WHEELS, new Piece());
+        PlayerBody.Add(BodyPart.BODYWORK, new Piece());
+        PlayerBody.Add(BodyPart.GAS, new Piece());
+        PlayerBody.Add(BodyPart.EXHAUST_PIPE, new Piece());
+        PlayerBody.Add(BodyPart.LIGHTS, new Piece());
     }
 
     public void add_piece(Piece NewPiece)
