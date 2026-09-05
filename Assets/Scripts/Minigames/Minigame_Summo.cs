@@ -92,7 +92,6 @@ public class MiniGame1 : AMiniGame
 
         // Change P2 car sprite
         //
-        Debug.Log(GameManager.Singleton.player1.Skin);
         CarObject.GetComponent<SpriteRenderer>().sprite = GameManager.Singleton.player1.Skin;
 
         CarObject2.GetComponent<SpriteRenderer>().sprite = GameManager.Singleton.player2.Skin;

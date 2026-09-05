@@ -33,10 +33,12 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        if (GameManager.Singleton.player1 != null || GameManager.Singleton.player2 != null)
-        {
+        GameManager gameManager = GameManager.Singleton;
+        if (gameManager == null)
+            return;
+
+        if (this != gameManager.player1 && this != gameManager.player2)
             Destroy(gameObject);
-        }
     }
 
     public Player()
