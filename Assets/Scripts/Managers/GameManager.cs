@@ -127,6 +127,8 @@ public class GameManager : MonoBehaviour
         UIManager.Singleton.CloseDoor();
         yield return new WaitForSeconds(fadeInDelay);
 
+        UIManager.Singleton.ShowGarage();
+
         UIManager.Singleton.OpenDoor();
         yield return new WaitForSeconds(fadeOutDelay);
     }
@@ -141,6 +143,7 @@ public class GameManager : MonoBehaviour
             UIManager.Singleton.CloseDoor();
 
         yield return new WaitForSeconds(fadeOutDelay);
+        UIManager.Singleton.HideGarage();
 
         SceneManager.LoadScene(nextScene);
 
