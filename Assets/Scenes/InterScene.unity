@@ -229,6 +229,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 493505735}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
+      propertyPath: minigameSetup.Array.data[3].descriptions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
+      propertyPath: minigameSetup.Array.data[3].minigameScenes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
+      propertyPath: 'minigameSetup.Array.data[3].descriptions.Array.data[1]'
+      value: PEEKABOO!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
+      propertyPath: 'minigameSetup.Array.data[3].minigameScenes.Array.data[1]'
+      value: Minigame Squid Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: 'minigameSetup.Array.data[4].minigameScenes.Array.data[0]'
       value: Minigame Semafo
       objectReference: {fileID: 0}
