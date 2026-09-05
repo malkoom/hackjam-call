@@ -86,16 +86,16 @@ public class MiniGame1 : AMiniGame
         // POSITIONS
         // -------------------------
 
-        //CarObject.transform.position =
-        //new Vector3(-1.5f, 1f - 0.159f, -8f);
+        CarObject.transform.position =
+        new Vector3(-1.5f, 1f - 0.159f, -8f);
 
-        // CarObject2.transform.position =
-        //new Vector3(1.5f, 1f - 0.159f, -8f);
+         CarObject2.transform.position =
+        new Vector3(1.5f, 1f - 0.159f, -8f);
 
         // Change P2 car sprite
-        CarObject.GetComponent<SpriteRenderer>().sprite = GameManager.player1;
+        CarObject.GetComponent<SpriteRenderer>().sprite = GameManager.Singleton.player1.Skin;
 
-        CarObject2.GetComponent<SpriteRenderer>().sprite = GameManager.player2;
+        CarObject2.GetComponent<SpriteRenderer>().sprite = GameManager.Singleton.player2.Skin;
 
         SumoObject1.transform.position = new Vector3(-1f, 1f, -8f);
 

@@ -90,11 +90,18 @@ public class GameManager : MonoBehaviour
     public void SetWinner(int player, Piece piece)
     {
         if (player == 1)
+        {
             currentWinner = player1;
+        }
         if (player == 2)
+        {
             currentWinner = player2;
+        }
         else
+        {
             Debug.LogError("Numero de player no existe");
+        }
+
         currentPiece = piece;
     }
 

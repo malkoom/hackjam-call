@@ -65,7 +65,7 @@ public class Player: MonoBehaviour
 
 [Serializable] public class Piece
 {
-    public Texture2D PieceTexture;
+    public Sprite PieceTexture;
 
     public string PieceName;
 
@@ -81,7 +81,7 @@ public class Player: MonoBehaviour
         Value = 0;
     }
 
-    public Piece(Texture2D texture, string name, BoostType type, BodyPart part, int value)
+    public Piece(Sprite texture, string name, BoostType type, BodyPart part, int value)
     {
         PieceTexture = texture;
         PieceName = name;
