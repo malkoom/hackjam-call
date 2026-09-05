@@ -1,29 +1,38 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Singleton;
 
-    // Estructura auxiliar para poder editarlo desde el Inspector de Unity
     [System.Serializable]
     public struct PieceMinigameEntry
     {
         public Piece piece;
-        public List<AMiniGame> minigames;
+
+        [Tooltip(
+            "Nombre de las escenas que pueden otorgar esta pieza. Deben estar en Build Settings."
+        )]
+        public List<string> minigameScenes;
     }
 
     [Header("Configuración de Minijuegos")]
     [SerializeField]
     private List<PieceMinigameEntry> minigameSetup = new List<PieceMinigameEntry>();
 
-    private Dictionary<Piece, List<AMiniGame>> miniGameDictionary =
-        new Dictionary<Piece, List<AMiniGame>>();
+    [Header("Transición")]
+    [SerializeField]
+    private float fadeOutDelay = 0.75f;
 
-    private AMiniGame currentMinigame;
+    [SerializeField]
+    private float fadeInDelay = 0.75f;
+
+    private Dictionary<Piece, List<string>> minigameSceneDictionary =
+        new Dictionary<Piece, List<string>>();
+
     private Piece currentPiece;
     private Player currentWinner;
     public Player player1;
@@ -31,93 +40,110 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Singleton == null)
-        {
-            Singleton = this;
-            DontDestroyOnLoad(gameObject);
-            InitializeDictionary();
-        }
-        else
+        if (Singleton != null && Singleton != this)
         {
             Destroy(gameObject);
+            return;
         }
+
+        Singleton = this;
+        DontDestroyOnLoad(gameObject);
+        InitializeDictionary();
+    }
+
+    private void Start()
+    {
+        StartNextMinigame();
     }
 
     private void InitializeDictionary()
     {
-        miniGameDictionary.Clear();
+        minigameSceneDictionary.Clear();
         foreach (var entry in minigameSetup)
         {
-            if (entry.piece != null && !miniGameDictionary.ContainsKey(entry.piece))
-            {
-                miniGameDictionary.Add(entry.piece, entry.minigames);
-            }
+            if (entry.piece == null || entry.minigameScenes == null)
+                continue;
+
+            List<string> validScenes = entry
+                .minigameScenes.Where(sceneName => !string.IsNullOrWhiteSpace(sceneName))
+                .ToList();
+
+            if (validScenes.Count > 0 && !minigameSceneDictionary.ContainsKey(entry.piece))
+                minigameSceneDictionary.Add(entry.piece, validScenes);
         }
     }
 
-    // Selecciona aleatoriamente una pieza y uno de sus minijuegos disponibles
-    public AMiniGame PullMinigame()
+    // Selecciona una pieza y la escena de uno de sus minijuegos disponibles.
+    public string PullMinigame()
     {
-        if (miniGameDictionary.Count == 0)
+        List<Piece> availablePieces = minigameSceneDictionary
+            .Where(entry => entry.Value.Count > 0)
+            .Select(entry => entry.Key)
+            .ToList();
+
+        if (availablePieces.Count == 0)
         {
-            Debug.LogWarning("No hay piezas ni minijuegos configurados en el diccionario.");
+            Debug.LogWarning("No hay piezas ni escenas de minijuegos configuradas.");
             return null;
         }
 
-        // Obtener una clave aleatoria (Piece)
-        List<Piece> availablePieces = miniGameDictionary.Keys.ToList();
-        int randPieceIndex = UnityEngine.Random.Range(0, availablePieces.Count);
-        currentPiece = availablePieces[randPieceIndex];
+        currentPiece = availablePieces[Random.Range(0, availablePieces.Count)];
 
-        List<AMiniGame> availableMinigames = miniGameDictionary[currentPiece];
-
-        if (availableMinigames == null || availableMinigames.Count == 0)
-        {
-            Debug.LogWarning($"La pieza {currentPiece} no tiene minijuegos asignados.");
-            return null;
-        }
-
-        // Obtener un minijuego aleatorio para esa pieza
-        int randMinigameIndex = UnityEngine.Random.Range(0, availableMinigames.Count);
-        currentMinigame = availableMinigames[randMinigameIndex];
-
-        return currentMinigame;
-
-        // TODO
-        // Quitar la pieza tomada
+        List<string> availableScenes = minigameSceneDictionary[currentPiece];
+        return availableScenes[Random.Range(0, availableScenes.Count)];
     }
 
     public void SetWinner(int player, Piece piece)
     {
         if (player == 1)
             currentWinner = player1;
-        if (player == 2)
+        else if (player == 2)
             currentWinner = player2;
         else
             Debug.LogError("Numero de player no existe");
-        currentPiece = piece;
+
+        if (piece != null)
+            currentPiece = piece;
+    }
+
+    public void StartNextMinigame()
+    {
+        StopAllCoroutines();
+        StartCoroutine(LoadNextMinigameRoutine());
     }
 
     public void StartFeedbackSequence()
     {
-        StopAllCoroutines();
-        StartCoroutine(FeedbackRoutine());
+        //1. Bajamos la puerta.
     }
 
-    private IEnumerator FeedbackRoutine()
+    private IEnumerator FeedBackRoutine()
     {
         UIManager.Singleton.CloseDoor();
-        yield return new WaitForSeconds(0.5f);
-        // 1. Aplicar la pieza al jugador ganador
-        // PlayerManager.Instance.GetPlayer(currentWinner).GivePiece(currentPiece);
-        currentMinigame.gameObject.SetActive(false);
-        // 2. Espera para el lerp/animación de la pieza viajando al coche
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(fadeInDelay);
 
-        // 3. Seleccionar nuevo minijuego y pieza
-        PullMinigame();
+        // Background garaje
 
-        // 4. Pausa antes de cerrar/bajar la compuerta de transición
-        yield return new WaitForSeconds(1.5f);
+        UIManager.Singleton.OpenDoor();
+        yield return new WaitForSeconds(fadeOutDelay);
+    }
+
+    private IEnumerator LoadNextMinigameRoutine()
+    {
+        string nextScene = PullMinigame();
+        if (string.IsNullOrEmpty(nextScene))
+            yield break;
+
+        if (UIManager.Singleton != null)
+            UIManager.Singleton.CloseDoor();
+
+        yield return new WaitForSeconds(fadeOutDelay);
+
+        SceneManager.LoadScene(nextScene);
+
+        if (UIManager.Singleton != null)
+            UIManager.Singleton.OpenDoor();
+
+        yield return new WaitForSeconds(fadeInDelay);
     }
 }

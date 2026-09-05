@@ -789,6 +789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1126100750}
+  - component: {fileID: 1126100751}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -811,6 +812,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1126100751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126100749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77dd77c03d32413dc89043e90e18f698, type: 3}
+  m_Name: GameManager
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  minigameSetup:
+  - piece:
+      PieceTexture: {fileID: 0}
+      PieceName: Sumo
+      BoostType: 0
+      BodyPart: 0
+      Value: 0
+    minigameScenes:
+    - Minigame Test
+  fadeOutDelay: 0.75
+  fadeInDelay: 0.75
 --- !u!1 &1296339435
 GameObject:
   m_ObjectHideFlags: 0

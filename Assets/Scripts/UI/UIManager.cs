@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     [Header("Submódulos de UI")]
     [SerializeField]
     private DoorController doorController;
+    private ImageFlyController pieceToPlayer;
 
     private void Awake()
     {
@@ -25,6 +26,11 @@ public class UIManager : MonoBehaviour
     {
         // Cierra la puerta al iniciar
         doorController.Close();
+    }
+
+    public void AssignPieceToPlayer(Transform playerTransform, Sprite sprite)
+    {
+        pieceToPlayer.FlyAndHide(pieceToPlayer.InitialTransform, playerTransform, sprite);
     }
 
     // Métodos públicos que otros scripts o eventos de botones pueden invocar
