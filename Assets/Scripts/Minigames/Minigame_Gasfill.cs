@@ -28,6 +28,8 @@ public class Minigame_Gasfill : AMiniGame
     private bool P2isReady = false;
     private float P2Score = 0.0f;
 
+    private int firstPlayer = 0;
+
     void Start()
     {
         InitMiniGame();
@@ -64,6 +66,11 @@ public class Minigame_Gasfill : AMiniGame
 
         if (Keyboard.current.wKey.wasReleasedThisFrame)
         {
+            if (firstPlayer == 0)
+            {
+                firstPlayer = 1;
+            }
+
             P1isReady = true;
             P1Score = P1Tank.Fill.transform.position.y;
             P1Tank.Tank.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -87,6 +94,11 @@ public class Minigame_Gasfill : AMiniGame
 
         if (Keyboard.current.upArrowKey.wasReleasedThisFrame)
         {
+            if (firstPlayer == 0)
+            {
+                firstPlayer = 2;
+            }
+
             P2isReady = true;
             P2Score = P2Tank.Fill.transform.position.y;
             P2Tank.Tank.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -108,13 +120,16 @@ public class Minigame_Gasfill : AMiniGame
         {
             print("Winner P1");
             NotifyWinner(1);
-        } else
+        } else if(P1Distance > P2Distance)
         {
             print("Winner P2");
             NotifyWinner(2);
+        } else
+        {
+            NotifyWinner(firstPlayer);
         }
 
-        EndMiniGame();
+            EndMiniGame();
 
     }
     void setHandPose()
