@@ -117,13 +117,20 @@ public class GameManager : MonoBehaviour
         if (availablePieces.Count == 0)
         {
             Debug.LogWarning("No hay piezas ni escenas de minijuegos configuradas.");
+            //SceneManager.LoadScene("FinalScene");
             return null;
         }
 
-        currentPiece = availablePieces[Random.Range(0, availablePieces.Count)];
+        int piece = Random.Range(0, availablePieces.Count);
+        currentPiece = availablePieces[piece];
 
         List<string> availableScenes = minigameSceneDictionary[currentPiece];
         string selectedScene = availableScenes[Random.Range(0, availableScenes.Count)];
+
+        if (selectedScene != null)
+        {
+            minigameSceneDictionary.Remove(currentPiece);
+        }
 
         return selectedScene;
     }

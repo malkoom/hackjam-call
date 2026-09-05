@@ -57,9 +57,8 @@ public class IntroSceneManager : MonoBehaviour
     {
         CloseDoor();
 
-        float closeDuration = doorController != null
-            ? doorController.TransitionDuration
-            : fallbackDoorCloseDuration;
+        float closeDuration =
+            doorController != null ? doorController.TransitionDuration : fallbackDoorCloseDuration;
         yield return new WaitForSeconds(closeDuration);
 
         if (startGameUI != null)
@@ -90,8 +89,21 @@ public class IntroSceneManager : MonoBehaviour
             startGameButton.interactable = false;
             startGameButton.gameObject.SetActive(false);
         }
+        SceneManager.LoadScene(gameSceneName);
+    }
 
-        UIManager.RequestDoorOpenOnNextScene();
+    private IEnumerator OpenDoorThenLoadGame()
+    {
+        if (doorController != null)
+        {
+            doorController.Open();
+            yield return new WaitForSeconds(doorController.TransitionDuration);
+        }
+        else
+        {
+            Debug.LogWarning("No se ha asignado una puerta para abrir antes de cambiar de escena.");
+        }
+
         SceneManager.LoadScene(gameSceneName);
     }
 

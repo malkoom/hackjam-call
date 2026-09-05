@@ -14,5 +14,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Minigames/Minigame Snail.unity
     guid: eb14c34d8bb44494b816a16c9a5ac4e4
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Minigame Semafo.unity
+    guid: f0a21817b5fc8fb428fc0ee97459882a
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Minigame Gasolina.unity
+    guid: 625a110cd31da9644a25b8b8bf69d644
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Minigame Police.unity
+    guid: effb0d253c3aaa64c81483a8a9817e24
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

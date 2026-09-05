@@ -46,27 +46,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   minigameSetup:
   - piece:
-      PieceTexture: {fileID: 2682434556049354389, guid: 4e3fb53a87bfb6306bcd71e5e166b01a, type: 3}
-      PieceName: "Aler\xF3n"
-      BoostType: 1
-      BodyPart: 2
-      Value: 5
-    minigameScenes:
-    - Minigame Sumo
-    - Minigame Snail
-    descriptions:
-    - SMASH!
-    - ROLL!
-  - piece:
       PieceTexture: {fileID: 2746636116169895124, guid: 8ac4fd21346743f61acf03e09986d86a, type: 3}
       PieceName: Carroceria
       BoostType: 1
       BodyPart: 3
       Value: 5
-    minigameScenes: []
+    minigameScenes:
+    - Minigame Sumo
     descriptions:
     - SMASH!
+  - piece:
+      PieceTexture: {fileID: -5840956168386072928, guid: 6361d838c3105dced8865bb5d22e041a, type: 3}
+      PieceName: Turbo
+      BoostType: 1
+      BodyPart: 3
+      Value: 5
+    minigameScenes:
+    - Minigame Snail
+    descriptions:
     - ROLL!
+  - piece:
+      PieceTexture: {fileID: 8454371598550265505, guid: 28a47f67db2711d52b08b4e0ef659b3b, type: 3}
+      PieceName: Gasolina
+      BoostType: 1
+      BodyPart: 3
+      Value: 5
+    minigameScenes:
+    - Minigame Gasolina
+    descriptions:
+    - POUR!
+  - piece:
+      PieceTexture: {fileID: 46623175622042934, guid: 159b6df7c88a489ae93e89bf5345fe28, type: 3}
+      PieceName: Rueda
+      BoostType: 1
+      BodyPart: 3
+      Value: 5
+    minigameScenes:
+    - Minigame Police
+    descriptions:
+    - WAIT!
+  - piece:
+      PieceTexture: {fileID: -7161208273452252224, guid: 80969384b486574c883e9c8f81e4f700, type: 3}
+      PieceName: Tubo Escape
+      BoostType: 2
+      BodyPart: 3
+      Value: 5
+    minigameScenes:
+    - Minigame Semaforo
+    descriptions:
+    - WAIT!
   fadeOutDelay: 0.5
   fadeInDelay: 0.5
   currentPiece:
