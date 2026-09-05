@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
             "Nombre de las escenas que pueden otorgar esta pieza. Deben estar en Build Settings."
         )]
         public List<string> minigameScenes;
+        public List<string> descriptions;
     }
 
     [Header("Configuración de Minijuegos")]
@@ -38,7 +39,6 @@ public class GameManager : MonoBehaviour
     private int currentWinner;
     public Player player1;
     public Player player2;
-    public bool PlayerInstanced;
 
     private void Awake()
     {
@@ -94,7 +94,11 @@ public class GameManager : MonoBehaviour
         currentPiece = availablePieces[Random.Range(0, availablePieces.Count)];
 
         List<string> availableScenes = minigameSceneDictionary[currentPiece];
-        return availableScenes[Random.Range(0, availableScenes.Count)];
+
+        int aux = Random.Range(0, availableScenes.Count);
+
+        UIManager.Singleton.SetMinigameTextAndShow()
+        return availableScenes[];
     }
 
     public void SetWinner(int player, Piece piece)
@@ -141,6 +145,8 @@ public class GameManager : MonoBehaviour
         if (string.IsNullOrEmpty(nextScene))
             yield break;
 
+        UIManager.Singleton.SetPieceAndShow(currentPiece.PieceTexture);
+        UIManager.Singleton.SetMinigameTextAndShow();
         if (UIManager.Singleton != null)
             UIManager.Singleton.CloseDoor();
 
