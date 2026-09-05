@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
+
 public enum BoostType //Que modifica la pieza
 {
     NONE,
     SPEED,
-    ACCELERATION
+    ACCELERATION,
 }
+
 public enum BodyPart //Partes del Coche
 {
     WHEELS,
     TURBO,
     AILERON,
-    CHASIS
+    CHASIS,
 }
-public class Player: MonoBehaviour
+
+public class Player : MonoBehaviour
 {
     public Sprite Skin;
 
@@ -25,13 +28,23 @@ public class Player: MonoBehaviour
     public int speed = 10;
     public int acceleration = 2;
 
-    [SerializeField] public Dictionary<BodyPart, Piece> PlayerBody = new Dictionary<BodyPart, Piece>();
+    [SerializeField]
+    public Dictionary<BodyPart, Piece> PlayerBody = new Dictionary<BodyPart, Piece>();
+
+    void Awake()
+    {
+        if (GameManager.Singleton.player1 != null || GameManager.Singleton.player2 != null)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public Player()
     {
         print("Debes asignarle un numero");
         return;
     }
+
     public Player(int n)
     {
         id = n;
@@ -40,6 +53,7 @@ public class Player: MonoBehaviour
         PlayerBody.Add(BodyPart.TURBO, new Piece());
         PlayerBody.Add(BodyPart.WHEELS, new Piece());
     }
+
     public void add_piece(Piece NewPiece)
     {
         if (!PlayerBody.ContainsKey(NewPiece.BodyPart))
@@ -47,7 +61,7 @@ public class Player: MonoBehaviour
             return;
         }
 
-        switch(NewPiece.BoostType)
+        switch (NewPiece.BoostType)
         {
             case BoostType.SPEED:
                 speed += NewPiece.Value;
@@ -63,7 +77,8 @@ public class Player: MonoBehaviour
     }
 }
 
-[Serializable] public class Piece
+[Serializable]
+public class Piece
 {
     public Sprite PieceTexture;
 

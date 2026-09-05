@@ -33,9 +33,9 @@ public class UIManager : MonoBehaviour
         doorController.Close();
     }
 
-    public void AssignPieceToPlayer(int destination, Sprite sprite)
+    public float AssignPieceToPlayer(int destination, Sprite sprite)
     {
-        pieceToPlayer.FlyAndHide(destination, sprite);
+        return pieceToPlayer.FlyAndHide(destination, sprite);
     }
 
     public void ShowGarage()
