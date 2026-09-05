@@ -326,6 +326,5 @@ public class Minigame_Police : AMiniGame
 
     public override void EndMiniGame()
     {
-        Obstacle1.SetActive(false);
     }
 }
