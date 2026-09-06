@@ -104,25 +104,29 @@ public class SplineCarController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
-
-        maxSpeed +=
-            team == Team.Red_WASD
-                ? GameManager.Singleton.player1.speed
-                : GameManager.Singleton.player2.speed;
-
-        acceleration +=
-            team == Team.Red_WASD
-                ? GameManager.Singleton.player1.acceleration
-                : GameManager.Singleton.player2.acceleration;
+        // Comprobación segura: no da error si se inicia la escena de forma aislada
+        if (GameManager.Singleton != null)
+        {
+            var p1 = GameManager.Singleton.player1;
+            var p2 = GameManager.Singleton.player2;
+            if (team == Team.Red_WASD && p1 != null)
+            {
+                maxSpeed += p1.speed;
+                acceleration += p1.acceleration;
+            }
+            else if (team == Team.Blue_Arrows && p2 != null)
+            {
+                maxSpeed += p2.speed;
+                acceleration += p2.acceleration;
+            }
+        }
         SetupVisualRenderers();
         SetupCamera();
         InitCheckpoints();
-
         if (splineContainer != null)
         {
             splineLength = splineContainer.CalculateLength();
             progress = lastCheckpointProgress;
-
             // ALINEACIÓN EXACTA Y PERFECTA EN LA SALIDA (sin interpolación lenta)
             UpdateTransformOnSpline(snapImmediate: true);
         }
