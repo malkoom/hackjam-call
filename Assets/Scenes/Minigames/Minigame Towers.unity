@@ -723,6 +723,20 @@ MonoBehaviour:
     BoostType: 0
     BodyPart: 0
     Value: 0
+  GunShot:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Death:
+    Guid:
+      Data1: 1592652388
+      Data2: 1232166068
+      Data3: 1163647414
+      Data4: -736562067
+    Path: event:/SFX/Mini/sumo_flip
   Towers:
   - {fileID: 374925396}
   - {fileID: 391921748}

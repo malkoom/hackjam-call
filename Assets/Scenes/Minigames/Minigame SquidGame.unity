@@ -482,6 +482,13 @@ MonoBehaviour:
     BoostType: 0
     BodyPart: 0
     Value: 0
+  PoliceScream:
+    Guid:
+      Data1: 1592652388
+      Data2: 1232166068
+      Data3: 1163647414
+      Data4: -736562067
+    Path: event:/SFX/Mini/sumo_flip
   StartingX: -2
   ObjectiveX: 2.2
   Police: {fileID: 825844114}
