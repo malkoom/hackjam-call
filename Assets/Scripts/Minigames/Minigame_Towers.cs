@@ -9,6 +9,8 @@ public class Minigame_Towers : AMiniGame
     [Header("Players")]
     public GameObject[] Players = new GameObject[2];
 
+    public GameObject[] Guns = new GameObject[2];
+
     public Sprite DeathP1;
     public Sprite DeathP2;
 
@@ -211,7 +213,7 @@ public class Minigame_Towers : AMiniGame
 
     void ThrowBall(int shooterIndex, int targetIndex)
     {
-        GameObject shooter = Players[shooterIndex];
+        GameObject shooter = Guns[shooterIndex];
         GameObject target = Players[targetIndex];
 
         if (shooter == null || target == null)
