@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/IntroScene.unity
     guid: b4eb6f503ed6c8d48a3b8241ea2dea30
   - enabled: 1
+    path: Assets/Scenes/OutroScene.unity
+    guid: 6eddbd135ac2c6d4cb60fd52b3d7d7d4
+  - enabled: 1
     path: Assets/Scenes/Minigames/Minigame Semafo.unity
     guid: f0a21817b5fc8fb428fc0ee97459882a
   - enabled: 1
