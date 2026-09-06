@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
         if (availablePieces.Count == 0)
         {
             Debug.LogWarning("No hay piezas ni escenas de minijuegos configuradas.");
-            //SceneManager.LoadScene("FinalScene");
+
             return null;
         }
 
@@ -220,7 +220,10 @@ public class GameManager : MonoBehaviour
     {
         string nextScene = PullMinigame();
         if (string.IsNullOrEmpty(nextScene))
+        {
+            yield return GoToOutro();
             yield break;
+        }
 
         UIManager.Singleton.CloseDoor();
         yield return new WaitForSeconds(fadeOutDelay);
@@ -229,7 +232,7 @@ public class GameManager : MonoBehaviour
         minigameDescriptions.TryGetValue(nextScene, out string description);
         UIManager.Singleton.SetMinigameTextAndShow(description ?? string.Empty);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.5f);
         UIManager.Singleton.HideGarage();
 
         SceneManager.LoadScene(nextScene);
@@ -238,5 +241,13 @@ public class GameManager : MonoBehaviour
             UIManager.Singleton.OpenDoor();
 
         yield return new WaitForSeconds(fadeInDelay);
+    }
+
+    private IEnumerator GoToOutro()
+    {
+        UIManager.Singleton.FadeIn();
+        yield return new WaitForSeconds(0.35f);
+        SceneManager.LoadScene("OutroScene");
+        UIManager.Singleton.FadeOut();
     }
 }

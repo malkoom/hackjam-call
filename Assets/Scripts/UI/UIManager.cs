@@ -30,6 +30,9 @@ public class UIManager : MonoBehaviour
     private RectTransform minigameTextTransform;
     private Vector2 minigameTextInitialPosition;
 
+    [SerializeField]
+    private CanvasFader fader;
+
     private void Awake()
     {
         if (Singleton == null)
@@ -177,5 +180,15 @@ public class UIManager : MonoBehaviour
 
         Debug.LogWarning("No hay una pieza actual con sprite en GameManager.");
         return null;
+    }
+
+    public void FadeIn()
+    {
+        fader.FadeIn();
+    }
+
+    public void FadeOut()
+    {
+        fader.FadeOut();
     }
 }
