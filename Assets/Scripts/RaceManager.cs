@@ -8,6 +8,10 @@ public class RaceManager : MonoBehaviour
 {
     public static RaceManager Instance;
 
+    [Header("Navegación")]
+    [Tooltip("Escena del menú principal. Debe estar incluida en Build Settings.")]
+    [SerializeField] private string mainMenuSceneName = "IntroScene";
+
     [Header("Referencias de UI (TextMeshPro)")]
     [Tooltip("Texto grande centrado para la cuenta atrás (3, 2, 1, YA!)")]
     public TextMeshProUGUI countdownText;
@@ -18,6 +22,7 @@ public class RaceManager : MonoBehaviour
     [Tooltip("Panel de fondo de victoria (opcional)")]
     public GameObject winnerPanel;
     public GameObject winnerPanel2;
+    public GameObject button;
 
     [Header("Configuración de la Carrera")]
     [Tooltip("Número de vueltas necesarias para ganar")]
@@ -29,6 +34,7 @@ public class RaceManager : MonoBehaviour
     // Estado global accesible por los coches
     public static bool isRaceStarted = false;
     public static bool isRaceOver = false;
+    private bool isReturningToMenu;
 
     void Awake()
     {
@@ -95,6 +101,8 @@ public class RaceManager : MonoBehaviour
             return; // Solo el primero activa la victoria
         isRaceOver = true;
 
+        button.SetActive(true);
+
         if (winnerText != null)
         {
             winnerText.gameObject.SetActive(true);
@@ -112,5 +120,36 @@ public class RaceManager : MonoBehaviour
         }
 
         Debug.Log($"CARRERA TERMINADA! Ganador: {winnerTeam}");
+    }
+
+    /// <summary>
+    /// Vuelve al menú principal y elimina todos los objetos persistentes creados
+    /// mediante DontDestroyOnLoad para que la siguiente partida empiece limpia.
+    /// Se puede asignar directamente al evento On Click de un botón.
+    /// </summary>
+    public void ReturnToMainMenu()
+    {
+        if (isReturningToMenu)
+            return;
+
+        isReturningToMenu = true;
+        StartCoroutine(ReturnToMainMenuRoutine());
+    }
+
+    private IEnumerator ReturnToMainMenuRoutine()
+    {
+        Scene persistentScene = SceneManager.GetSceneByName("DontDestroyOnLoad");
+
+        if (persistentScene.IsValid())
+        {
+            foreach (GameObject persistentObject in persistentScene.GetRootGameObjects())
+                Destroy(persistentObject);
+        }
+
+        // Destroy se procesa al final del frame. Esperar evita que los singletons
+        // persistentes sobrevivan un instante al cargar el menú.
+        yield return new WaitForEndOfFrame();
+
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 }
