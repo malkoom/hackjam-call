@@ -3208,7 +3208,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: '
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b961b350e080a144cab86438c6dc0864, type: 2}
   m_sharedMaterial: {fileID: 8556475191530080645, guid: b961b350e080a144cab86438c6dc0864, type: 2}
@@ -3882,7 +3884,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &944676380
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3892,8 +3894,8 @@ RectTransform:
   m_GameObject: {fileID: 944676379}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 7.6299996, y: 7.6299996, z: 7.6299996}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 751192018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3922,7 +3924,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -9182499977247948310, guid: 1f29ac3bfadc73477b83437778b2bb3b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4163,7 +4165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1153302251
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4173,8 +4175,8 @@ RectTransform:
   m_GameObject: {fileID: 1153302250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 7.6299996, y: 7.6299996, z: 7.6299996}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 751192018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4203,7 +4205,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1223912316571392928, guid: b1a7104518f919e94a9f2b846640f322, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7920,8 +7922,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RaceManager
   countdownText: {fileID: 1036591149}
   winnerText: {fileID: 410398217}
-  winnerPanel: {fileID: 0}
-  winnerPanel2: {fileID: 0}
+  winnerPanel: {fileID: 944676379}
+  winnerPanel2: {fileID: 1153302250}
   totalLaps: 1
   countdownSeconds: 3
 --- !u!1 &1871866729
