@@ -862,20 +862,46 @@ MonoBehaviour:
       Data3: 1163647414
       Data4: -736562067
     Path: event:/SFX/Mini/sumo_flip
+  TapSFX:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   CarPrefab: {fileID: 7168392282668745321, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
   CarPrefab2: {fileID: 7168392282668745321, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
   SumoPrefab: {fileID: 9144979715560673063, guid: 43a882e91fb5d124099da9ee41c3b97d, type: 3}
   HappySumo: {fileID: -1238596547899042917, guid: a2150717a916d744bb034630110df889, type: 3}
   SadSumo: {fileID: -805357478434416252, guid: 5e734de360669be4aae384537c70d9d6, type: 3}
+  P1Button: {fileID: 0}
+  P2Button: {fileID: 0}
+  ButtonIdleSpeed: 4
+  ButtonIdleAmount: 0.05
+  ButtonSquash: 0.7
+  ButtonPunch: 1.3
+  ButtonPressDuration: 0.1
+  ButtonRotation: 8
   Timer: 3
   WinnerPause: 0.5
   EndDelay: 0
   PushDistance: 0.15
   PushDuration: 0.08
+  PushScaleX: 1.15
+  PushScaleY: 0.85
+  PushRotation: 4
   ThrowDistance: 6
   ThrowHeight: 2
   ThrowDuration: 0.8
   ThrowRotation: 720
+  HitStopDuration: 0.08
+  FinalShakeDuration: 0.3
+  FinalShakeStrength: 0.2
+  P1PushParticles: {fileID: 0}
+  P2PushParticles: {fileID: 0}
+  CenterMarker: {fileID: 0}
+  MarkerMaxDistance: 0.75
+  MarkerSmoothSpeed: 8
   Player: {fileID: 16597508}
   ActiveGame: 1
   MaxScore: 80
