@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
@@ -8,7 +9,20 @@ public class CanvasFader : MonoBehaviour
     [SerializeField] private bool fadeInOnStart;
 
     private CanvasGroup canvasGroup;
-    private Coroutine fadeCoroutine;
+    private readonly Queue<FadeRequest> fadeQueue = new Queue<FadeRequest>();
+    private Coroutine queueCoroutine;
+
+    private struct FadeRequest
+    {
+        public float targetAlpha;
+        public float duration;
+
+        public FadeRequest(float targetAlpha, float duration)
+        {
+            this.targetAlpha = targetAlpha;
+            this.duration = duration;
+        }
+    }
 
     private void Awake()
     {
@@ -46,10 +60,21 @@ public class CanvasFader : MonoBehaviour
 
     public void FadeTo(float targetAlpha, float duration)
     {
-        if (fadeCoroutine != null)
-            StopCoroutine(fadeCoroutine);
+        fadeQueue.Enqueue(new FadeRequest(Mathf.Clamp01(targetAlpha), Mathf.Max(0f, duration)));
 
-        fadeCoroutine = StartCoroutine(FadeRoutine(Mathf.Clamp01(targetAlpha), duration));
+        if (queueCoroutine == null)
+            queueCoroutine = StartCoroutine(ProcessQueueRoutine());
+    }
+
+    private IEnumerator ProcessQueueRoutine()
+    {
+        while (fadeQueue.Count > 0)
+        {
+            FadeRequest request = fadeQueue.Dequeue();
+            yield return FadeRoutine(request.targetAlpha, request.duration);
+        }
+
+        queueCoroutine = null;
     }
 
     private IEnumerator FadeRoutine(float targetAlpha, float duration)
@@ -78,6 +103,5 @@ public class CanvasFader : MonoBehaviour
         bool visible = targetAlpha > 0f;
         canvasGroup.blocksRaycasts = visible;
         canvasGroup.interactable = visible;
-        fadeCoroutine = null;
     }
 }
