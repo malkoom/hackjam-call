@@ -122,6 +122,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("No hay piezas ni escenas de minijuegos configuradas.");
 
+            UIManager.Singleton.FadeIn();
             return null;
         }
 
@@ -220,10 +221,7 @@ public class GameManager : MonoBehaviour
     {
         string nextScene = PullMinigame();
         if (string.IsNullOrEmpty(nextScene))
-        {
-            yield return GoToOutro();
             yield break;
-        }
 
         UIManager.Singleton.CloseDoor();
         yield return new WaitForSeconds(fadeOutDelay);
@@ -241,13 +239,5 @@ public class GameManager : MonoBehaviour
             UIManager.Singleton.OpenDoor();
 
         yield return new WaitForSeconds(fadeInDelay);
-    }
-
-    private IEnumerator GoToOutro()
-    {
-        UIManager.Singleton.FadeIn();
-        yield return new WaitForSeconds(0.35f);
-        SceneManager.LoadScene("OutroScene");
-        UIManager.Singleton.FadeOut();
     }
 }
