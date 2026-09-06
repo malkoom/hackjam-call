@@ -1,4 +1,5 @@
 using System.Collections;
+using FMODUnity;
 using UnityEngine;
 
 public class DoorController : MonoBehaviour
@@ -30,6 +31,9 @@ public class DoorController : MonoBehaviour
 
     [SerializeField]
     private float canvasShakeStrength = 28f;
+
+    [SerializeField]
+    private EventReference sound;
 
     private void Reset()
     {
@@ -71,28 +75,29 @@ public class DoorController : MonoBehaviour
         // Posición final asegurada
         doorTransform.localPosition = new Vector3(currentPos.x, targetY, currentPos.z);
 
+        if (targetY == minY)
+        {
+            RuntimeManager.PlayOneShot(sound, transform.position);
+        }
     }
 
     private IEnumerator ShakeCamera()
     {
         Camera targetCamera = cameraToShake != null ? cameraToShake : Camera.main;
         Canvas parentCanvas = doorTransform.GetComponentInParent<Canvas>();
-        RectTransform targetCanvas = canvasToShake != null
-            ? canvasToShake
-            : parentCanvas != null
-                ? parentCanvas.transform as RectTransform
-                : null;
+        RectTransform targetCanvas =
+            canvasToShake != null ? canvasToShake
+            : parentCanvas != null ? parentCanvas.transform as RectTransform
+            : null;
 
         if (shakeDuration <= 0f || (targetCamera == null && targetCanvas == null))
             yield break;
 
         Transform cameraTransform = targetCamera != null ? targetCamera.transform : null;
-        Vector3 initialCameraPosition = cameraTransform != null
-            ? cameraTransform.localPosition
-            : Vector3.zero;
-        Vector2 initialCanvasPosition = targetCanvas != null
-            ? targetCanvas.anchoredPosition
-            : Vector2.zero;
+        Vector3 initialCameraPosition =
+            cameraTransform != null ? cameraTransform.localPosition : Vector3.zero;
+        Vector2 initialCanvasPosition =
+            targetCanvas != null ? targetCanvas.anchoredPosition : Vector2.zero;
         float elapsedTime = 0f;
 
         while (elapsedTime < shakeDuration)
@@ -102,14 +107,13 @@ public class DoorController : MonoBehaviour
             Vector2 offset = Random.insideUnitCircle * falloff;
 
             if (cameraTransform != null)
-                cameraTransform.localPosition = initialCameraPosition + new Vector3(
-                    offset.x * shakeStrength,
-                    offset.y * shakeStrength,
-                    0f
-                );
+                cameraTransform.localPosition =
+                    initialCameraPosition
+                    + new Vector3(offset.x * shakeStrength, offset.y * shakeStrength, 0f);
 
             if (targetCanvas != null)
-                targetCanvas.anchoredPosition = initialCanvasPosition + offset * canvasShakeStrength;
+                targetCanvas.anchoredPosition =
+                    initialCanvasPosition + offset * canvasShakeStrength;
             yield return null;
         }
 
