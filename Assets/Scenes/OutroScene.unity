@@ -1174,7 +1174,7 @@ MonoBehaviour:
   canvasRect: {fileID: 0}
   nextSceneName: ScalextricScene
   closeDuration: 0.5
-  pauseBetween: 5
+  pauseBetween: 3
   openDuration: 0.5
 --- !u!95 &1550035954
 Animator:
