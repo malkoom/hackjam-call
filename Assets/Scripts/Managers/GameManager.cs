@@ -196,9 +196,24 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(fadeInDelay);
 
         float duration = ui.AssignCurrentPieceToPlayer(currentWinner);
-        yield return new WaitForSeconds(duration + 1);
+        yield return new WaitForSeconds(duration);
+
+        GiveCurrentPieceToWinner();
+        yield return new WaitForSeconds(1);
 
         StartCoroutine(LoadNextMinigameRoutine());
+    }
+
+    private void GiveCurrentPieceToWinner()
+    {
+        Player winner = currentWinner == 1 ? player1 : player2;
+        if (winner == null || currentPiece == null)
+        {
+            Debug.LogWarning("No se pudo entregar la pieza al jugador ganador.");
+            return;
+        }
+
+        winner.AddPiece(currentPiece);
     }
 
     private IEnumerator LoadNextMinigameRoutine()

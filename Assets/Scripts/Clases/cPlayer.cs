@@ -19,7 +19,7 @@ public enum BodyPart //Partes del Coche
     BODYWORK,
     GAS,
     EXHAUST_PIPE,
-    LIGHTS
+    LIGHTS,
 }
 
 public class Player : MonoBehaviour
@@ -33,6 +33,11 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     public Dictionary<BodyPart, Piece> PlayerBody = new Dictionary<BodyPart, Piece>();
+
+    // Inventario ordenado: cada premio se conserva para poder representarlo en el garaje.
+    public List<Piece> Pieces = new List<Piece>();
+
+    public event Action<Piece> PieceAdded;
 
     void Awake()
     {
@@ -61,6 +66,28 @@ public class Player : MonoBehaviour
         PlayerBody.Add(BodyPart.GAS, new Piece());
         PlayerBody.Add(BodyPart.EXHAUST_PIPE, new Piece());
         PlayerBody.Add(BodyPart.LIGHTS, new Piece());
+    }
+
+    public void AddPiece(Piece piece)
+    {
+        if (piece == null)
+            return;
+
+        switch (piece.BoostType)
+        {
+            case BoostType.ACCELERATION:
+                acceleration += piece.Value;
+                break;
+            case BoostType.SPEED:
+                speed += piece.Value;
+                break;
+            default:
+                Debug.Log("BoosType no implementado");
+                break;
+        }
+
+        Pieces.Add(piece);
+        PieceAdded?.Invoke(piece);
     }
 
     public void add_piece(Piece NewPiece)
