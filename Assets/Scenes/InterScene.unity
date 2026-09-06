@@ -822,7 +822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &788435005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,8 +858,8 @@ Transform:
   - {fileID: 2024331105}
   - {fileID: 291791752}
   - {fileID: 1303390144}
-  - {fileID: 127749550}
   - {fileID: 670918036}
+  - {fileID: 127749550}
   - {fileID: 182257729}
   - {fileID: 867221434}
   - {fileID: 1445420661}
@@ -4311,6 +4311,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1360254213827544237, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2422237936253586581, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.6886902
@@ -4369,7 +4373,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6895822360210151569, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7885784964942997057, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
       propertyPath: m_Pivot.x
@@ -5073,7 +5077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5157,9 +5161,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60
+  field of view: 42
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
