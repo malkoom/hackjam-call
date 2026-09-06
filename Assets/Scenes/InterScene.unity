@@ -2158,7 +2158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: minigameSetup.Array.data[5].piece.BoostType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: minigameSetup.Array.data[5].piece.PieceName
@@ -2167,7 +2167,7 @@ PrefabInstance:
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: minigameSetup.Array.data[5].piece.PieceTexture
       value: 
-      objectReference: {fileID: -7161208273452252224, guid: 80969384b486574c883e9c8f81e4f700, type: 3}
+      objectReference: {fileID: 8882426497176753844, guid: bc4ea65a0ca4d754087be6221242ab55, type: 3}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: minigameSetup.Array.data[3].descriptions.Array.size
       value: 2
@@ -2185,12 +2185,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
+      propertyPath: 'minigameSetup.Array.data[2].descriptions.Array.data[0]'
+      value: HOLD!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: 'minigameSetup.Array.data[3].descriptions.Array.data[1]'
       value: PEEKABOO!
       objectReference: {fileID: 0}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: 'minigameSetup.Array.data[5].descriptions.Array.data[0]'
-      value: WAIT!
+      value: SHOOT!
       objectReference: {fileID: 0}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: 'minigameSetup.Array.data[3].minigameScenes.Array.data[1]'
@@ -2202,7 +2206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4796336116776206341, guid: 52ae83c36f3ab41f19b7e69015a99073, type: 3}
       propertyPath: 'minigameSetup.Array.data[5].minigameScenes.Array.data[0]'
-      value: Minigame Semafo
+      value: Minigame Towers
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
