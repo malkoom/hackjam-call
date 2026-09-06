@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Splines;
+using TMPro; // TextMeshPro
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -23,9 +24,7 @@ public class SplineCarController : MonoBehaviour
     public SplineContainer splineContainer;
 
     [Header("Modelo Visual (Hijo)")]
-    [Tooltip(
-        "Arrastra aquí el GameObject hijo donde está la malla real del coche. Evita que reaparezca la malla del objeto padre (ej. cubo viejo)."
-    )]
+    [Tooltip("Arrastra aquí el GameObject hijo donde está la malla real del coche.")]
     public GameObject visualModel;
 
     [Header("Checkpoints (Por Knots del Spline)")]
@@ -46,7 +45,6 @@ public class SplineCarController : MonoBehaviour
 
     [Header("Aviso Visual: Inclinación")]
     public float maxTiltAngle = 28f;
-
     [Range(0.1f, 0.9f)]
     public float tiltWarningThreshold = 0.35f;
     public float tiltSmoothSpeed = 8f;
@@ -62,6 +60,19 @@ public class SplineCarController : MonoBehaviour
 
     [Header("Cámara")]
     public Camera carCamera;
+
+    [Header("Ajustes de Textos Power-up")]
+    [Tooltip("Tamaño del texto a escala del coche (ajústalo a tu gusto)")]
+    public float popupScale = 0.0018f;
+
+    [Tooltip("Distancia que sube flotando (reducido para no salir de la cámara)")]
+    public float popupFloatHeight = 0.5f;
+
+    [Tooltip("Altura inicial justo encima del techo")]
+    public float popupStartHeight = 0.35f;
+
+    [Tooltip("Si se activa, muestra textos flotantes de prueba al iniciar si no hay GameManager")]
+    public bool testPowerUpPopups = true;
 
     [Header("Comportamiento General")]
     public bool isLoop = true;
@@ -89,7 +100,6 @@ public class SplineCarController : MonoBehaviour
     private List<CheckpointInfo> cachedCheckpoints = new List<CheckpointInfo>();
     private float lastCheckpointProgress = 0f;
 
-    // Renderers exclusivos de la malla hija
     private Renderer[] carRenderers;
 
     private Transform originalCameraParent;
@@ -104,30 +114,17 @@ public class SplineCarController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
-        // Comprobación segura: no da error si se inicia la escena de forma aislada
-        if (GameManager.Singleton != null)
-        {
-            var p1 = GameManager.Singleton.player1;
-            var p2 = GameManager.Singleton.player2;
-            if (team == Team.Red_WASD && p1 != null)
-            {
-                maxSpeed += p1.speed;
-                acceleration += p1.acceleration;
-            }
-            else if (team == Team.Blue_Arrows && p2 != null)
-            {
-                maxSpeed += p2.speed;
-                acceleration += p2.acceleration;
-            }
-        }
-        SetupVisualRenderers();
+
         SetupCamera();
+        SetupVisualRenderers();
         InitCheckpoints();
+
+        ApplyPlayerUpgrades();
+
         if (splineContainer != null)
         {
             splineLength = splineContainer.CalculateLength();
             progress = lastCheckpointProgress;
-            // ALINEACIÓN EXACTA Y PERFECTA EN LA SALIDA (sin interpolación lenta)
             UpdateTransformOnSpline(snapImmediate: true);
         }
         else
@@ -136,25 +133,184 @@ public class SplineCarController : MonoBehaviour
         }
     }
 
+    private void ApplyPlayerUpgrades()
+    {
+        if (GameManager.Singleton != null)
+        {
+            Player p = (team == Team.Red_WASD) ? GameManager.Singleton.player1 : GameManager.Singleton.player2;
+
+            if (p != null)
+            {
+                maxSpeed += p.speed * 0.1f;
+                acceleration += p.acceleration * 0.15f;
+
+                if (p.PlayerBody != null)
+                {
+                    if (p.PlayerBody.ContainsKey(BodyPart.WHEELS) && p.PlayerBody[BodyPart.WHEELS].Value > 0)
+                    {
+                        maxCorneringGrip += p.PlayerBody[BodyPart.WHEELS].Value * 0.3f;
+                        brakeStrength += p.PlayerBody[BodyPart.WHEELS].Value * 0.5f;
+                    }
+
+                    if (p.PlayerBody.ContainsKey(BodyPart.AILERON) && p.PlayerBody[BodyPart.AILERON].Value > 0)
+                    {
+                        derailReactionTime += p.PlayerBody[BodyPart.AILERON].Value * 0.05f;
+                    }
+
+                    if (p.PlayerBody.ContainsKey(BodyPart.BODYWORK) && p.PlayerBody[BodyPart.BODYWORK].Value > 0)
+                    {
+                        respawnDelay = Mathf.Max(1.0f, respawnDelay - (p.PlayerBody[BodyPart.BODYWORK].Value * 0.2f));
+                    }
+
+                    if (p.PlayerBody.ContainsKey(BodyPart.EXHAUST_PIPE) && p.PlayerBody[BodyPart.EXHAUST_PIPE].Value > 0)
+                    {
+                        friction = Mathf.Max(0.2f, friction - (p.PlayerBody[BodyPart.EXHAUST_PIPE].Value * 0.04f));
+                    }
+                }
+
+                StartCoroutine(ShowPowerUpsSequence(p));
+            }
+        }
+        else if (testPowerUpPopups)
+        {
+            StartCoroutine(ShowTestPopupsSequence());
+        }
+    }
+
+    private IEnumerator ShowPowerUpsSequence(Player player)
+    {
+        yield return new WaitForSeconds(0.4f);
+
+        List<string> popups = new List<string>();
+
+        if (player.PlayerBody != null)
+        {
+            if (player.PlayerBody.ContainsKey(BodyPart.TURBO) && player.PlayerBody[BodyPart.TURBO].Value > 0)
+                popups.Add("+SPEED");
+
+            if (player.PlayerBody.ContainsKey(BodyPart.WHEELS) && player.PlayerBody[BodyPart.WHEELS].Value > 0)
+                popups.Add("+GRIP");
+
+            if (player.PlayerBody.ContainsKey(BodyPart.GAS) && player.PlayerBody[BodyPart.GAS].Value > 0)
+                popups.Add("+ACCEL");
+
+            if (player.PlayerBody.ContainsKey(BodyPart.AILERON) && player.PlayerBody[BodyPart.AILERON].Value > 0)
+                popups.Add("+STABILITY");
+
+            if (player.PlayerBody.ContainsKey(BodyPart.BODYWORK) && player.PlayerBody[BodyPart.BODYWORK].Value > 0)
+                popups.Add("+RECOVERY");
+
+            if (player.PlayerBody.ContainsKey(BodyPart.EXHAUST_PIPE) && player.PlayerBody[BodyPart.EXHAUST_PIPE].Value > 0)
+                popups.Add("+INERTIA");
+        }
+
+        if (popups.Count == 0 && player.Pieces != null && player.Pieces.Count > 0)
+        {
+            foreach (var pc in player.Pieces)
+            {
+                if (pc != null && pc.Value > 0) popups.Add("+" + pc.BoostType);
+            }
+        }
+
+        if (popups.Count == 0)
+        {
+            if (player.speed > 0) popups.Add("+SPEED");
+            if (player.acceleration > 0) popups.Add("+ACCEL");
+        }
+
+        foreach (string msg in popups)
+        {
+            StartCoroutine(SpawnFloatingPopup(msg));
+            yield return new WaitForSeconds(0.55f);
+        }
+    }
+
+    private IEnumerator ShowTestPopupsSequence()
+    {
+        yield return new WaitForSeconds(0.4f);
+        string[] testStats = new string[] { "+SPEED", "+GRIP", "+ACCEL", "+STABILITY" };
+        foreach (string msg in testStats)
+        {
+            StartCoroutine(SpawnFloatingPopup(msg));
+            yield return new WaitForSeconds(0.55f);
+        }
+    }
+
+    // Nace justo encima del techo y flota suavemente a escala del coche
+    private IEnumerator SpawnFloatingPopup(string text)
+    {
+        GameObject popupRoot = new GameObject("Popup_" + text);
+        popupRoot.transform.position = transform.position + Vector3.up * popupStartHeight;
+
+        Canvas canvas = popupRoot.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.sortingOrder = 300;
+
+        RectTransform canvasRect = popupRoot.GetComponent<RectTransform>();
+        canvasRect.sizeDelta = new Vector2(400, 100);
+        popupRoot.transform.localScale = Vector3.zero;
+
+        GameObject textObj = new GameObject("TextTMP");
+        textObj.transform.SetParent(popupRoot.transform, false);
+
+        TextMeshProUGUI tmp = textObj.AddComponent<TextMeshProUGUI>();
+        tmp.text = text;
+        tmp.fontSize = 45;
+        tmp.fontStyle = FontStyles.Bold;
+        tmp.alignment = TextAlignmentOptions.Center;
+
+        Color brightGreen = new Color(0.15f, 1f, 0.25f, 1f);
+        tmp.color = brightGreen;
+
+        float duration = 1.3f;
+        float elapsed = 0f;
+        Vector3 startPos = popupRoot.transform.position;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            // 1. Sube suavemente solo la altura fijada (sin salirse de la cámara)
+            popupRoot.transform.position = startPos + Vector3.up * (Mathf.Sin(t * Mathf.PI * 0.5f) * popupFloatHeight);
+
+            // 2. Escala proporcional y compacta
+            float scaleFactor = Mathf.Sin(Mathf.Clamp01(t * 4f) * Mathf.PI * 0.5f);
+            popupRoot.transform.localScale = Vector3.one * (popupScale * scaleFactor);
+
+            // 3. Mira hacia la cámara
+            if (carCamera != null)
+            {
+                popupRoot.transform.rotation = carCamera.transform.rotation;
+            }
+
+            // 4. Desvanecimiento suave
+            if (t > 0.6f)
+            {
+                float fadeT = (t - 0.6f) / 0.4f;
+                tmp.color = new Color(brightGreen.r, brightGreen.g, brightGreen.b, 1f - fadeT);
+            }
+
+            yield return null;
+        }
+
+        Destroy(popupRoot);
+    }
+
     private void SetupVisualRenderers()
     {
-        // Si el usuario asignó el hijo donde está el modelo real
         if (visualModel != null)
         {
             carRenderers = visualModel.GetComponentsInChildren<Renderer>(true);
         }
         else
         {
-            // Auto-filtro: Tomar solo los renderers hijos y excluir el del objeto padre
             Renderer rootRenderer = GetComponent<Renderer>();
             List<Renderer> validRenderers = new List<Renderer>();
 
             foreach (Renderer r in GetComponentsInChildren<Renderer>(true))
             {
-                if (r != rootRenderer) // Ignorar la malla del padre donde está puesto el script
-                {
-                    validRenderers.Add(r);
-                }
+                if (r != rootRenderer) validRenderers.Add(r);
             }
 
             if (validRenderers.Count > 0)
@@ -240,7 +396,6 @@ public class SplineCarController : MonoBehaviour
             return;
         }
 
-        // Antes y durante la cuenta atrás: fijar posición y orientación perfecta
         if (!RaceManager.isRaceStarted)
         {
             currentSpeed = 0f;
@@ -432,11 +587,9 @@ public class SplineCarController : MonoBehaviour
             carCamera.transform.localRotation = originalCameraLocalRot;
         }
 
-        // Snap exacto en el checkpoint
         UpdateTransformOnSpline(snapImmediate: true);
         isDerailed = false;
 
-        // Efecto de parpadeo solo sobre las mallas del hijo
         float elapsed = 0f;
         bool isVisible = true;
         while (elapsed < blinkDuration)
@@ -526,12 +679,10 @@ public class SplineCarController : MonoBehaviour
 
             if (snapImmediate)
             {
-                // En la salida o reaparición: rotación instantánea y perfecta sin girar despacio
                 transform.rotation = targetRotation;
             }
             else
             {
-                // Conduciendo en carrera: suavizado normal
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
                     targetRotation,
