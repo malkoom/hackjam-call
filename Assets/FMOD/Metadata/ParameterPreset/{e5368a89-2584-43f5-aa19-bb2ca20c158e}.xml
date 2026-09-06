@@ -21,5 +21,13 @@
 		<property name="initialValue">
 			<value>0</value>
 		</property>
+		<relationship name="automators">
+			<destination>{69c99466-a094-4c15-bd23-3bdc2cb98fce}</destination>
+		</relationship>
+	</object>
+	<object class="Automator" id="{69c99466-a094-4c15-bd23-3bdc2cb98fce}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>cursorPosition</value>
+		</property>
 	</object>
 </objects>
