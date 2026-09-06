@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float fadeInDelay = 0.5f;
 
+    [SerializeField]
+    [Tooltip("Escena que contiene el garaje entre minijuegos.")]
+    private string intermissionSceneName = "InterScene";
+
     private Dictionary<Piece, List<string>> minigameSceneDictionary =
         new Dictionary<Piece, List<string>>();
 
@@ -40,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Piece currentPiece;
+    public Sprite CurrentPieceSprite => currentPiece != null ? currentPiece.PieceTexture : null;
+
     private int currentWinner;
     public Player player1;
     public Player player2;
@@ -59,7 +65,17 @@ public class GameManager : MonoBehaviour
         InitializeDictionary();
     }
 
-    private void Start() { }
+    private void Start()
+    {
+        StartCoroutine(StartFirstMinigameRoutine());
+    }
+
+    private IEnumerator StartFirstMinigameRoutine()
+    {
+        // Espera a que la UI de la escena se inicialice antes de iniciar la transición.
+        yield return null;
+        StartNextMinigame();
+    }
 
     private void InitializeDictionary()
     {
@@ -105,13 +121,21 @@ public class GameManager : MonoBehaviour
         if (availablePieces.Count == 0)
         {
             Debug.LogWarning("No hay piezas ni escenas de minijuegos configuradas.");
+
+            UIManager.Singleton.FadeIn();
             return null;
         }
 
-        currentPiece = availablePieces[Random.Range(0, availablePieces.Count)];
+        int piece = Random.Range(0, availablePieces.Count);
+        currentPiece = availablePieces[piece];
 
         List<string> availableScenes = minigameSceneDictionary[currentPiece];
         string selectedScene = availableScenes[Random.Range(0, availableScenes.Count)];
+
+        if (selectedScene != null)
+        {
+            minigameSceneDictionary.Remove(currentPiece);
+        }
 
         return selectedScene;
     }
@@ -119,7 +143,10 @@ public class GameManager : MonoBehaviour
     public void SetWinner(int player, Piece piece)
     {
         currentWinner = player;
-        if (piece != null)
+
+        // La pieza obtenida en PullMinigame es la que debe entregarse. Solo se
+        // reemplaza si el minijuego proporciona una pieza configurada con sprite.
+        if (piece != null && piece.PieceTexture != null)
             currentPiece = piece;
     }
 
@@ -137,25 +164,57 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FeedBackRoutine()
     {
-        UIManager.Singleton.CloseDoor();
+        UIManager ui = UIManager.Singleton;
+        if (ui == null)
+        {
+            Debug.LogError("No hay un UIManager disponible para mostrar el garaje.");
+            yield break;
+        }
 
-        yield return new WaitForSeconds(fadeInDelay);
+        ui.CloseDoor();
 
-        UIManager.Singleton.ShowGarage();
-        UIManager.Singleton.HideMinigameText();
-
-        SceneManager.LoadScene(0);
-
-        UIManager.Singleton.OpenDoor();
+        // Esperamos a que la puerta cubra el minijuego antes de cambiar de escena.
         yield return new WaitForSeconds(fadeOutDelay);
 
-        float duration = UIManager.Singleton.AssignPieceToPlayer(
-            currentWinner,
-            currentPiece.PieceTexture
-        );
-        yield return new WaitForSeconds(duration + 1);
+        // No usar el índice de Build Settings: puede cambiar y cargar una escena
+        // que no contenga el garaje.
+        SceneManager.LoadScene(intermissionSceneName);
+        yield return new WaitForEndOfFrame();
+
+        ui = UIManager.Singleton;
+        if (ui == null)
+        {
+            Debug.LogError("No se pudo recuperar el UIManager al cargar la escena del garaje.");
+            yield break;
+        }
+
+        // Activarlo después de cargar la escena garantiza que llega a renderizarse
+        // antes de abrir la puerta.
+        ui.ShowGarage();
+        ui.HideMinigameText();
+
+        ui.OpenDoor();
+        yield return new WaitForSeconds(fadeInDelay);
+
+        float duration = ui.AssignCurrentPieceToPlayer(currentWinner);
+        yield return new WaitForSeconds(duration);
+
+        GiveCurrentPieceToWinner();
+        yield return new WaitForSeconds(1);
 
         StartCoroutine(LoadNextMinigameRoutine());
+    }
+
+    private void GiveCurrentPieceToWinner()
+    {
+        Player winner = currentWinner == 1 ? player1 : player2;
+        if (winner == null || currentPiece == null)
+        {
+            Debug.LogWarning("No se pudo entregar la pieza al jugador ganador.");
+            return;
+        }
+
+        winner.AddPiece(currentPiece);
     }
 
     private IEnumerator LoadNextMinigameRoutine()
@@ -166,7 +225,7 @@ public class GameManager : MonoBehaviour
 
         UIManager.Singleton.CloseDoor();
         yield return new WaitForSeconds(fadeOutDelay);
-        UIManager.Singleton.SetPieceAndShow(currentPiece.PieceTexture);
+        UIManager.Singleton.SetCurrentPieceAndShow();
 
         minigameDescriptions.TryGetValue(nextScene, out string description);
         UIManager.Singleton.SetMinigameTextAndShow(description ?? string.Empty);

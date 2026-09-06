@@ -32,8 +32,6 @@ public class RythmObject
 
 public class Minigame_Police : AMiniGame
 {
-    public float TimeLimit = 6.0f;
-
     [Header("Obstacles")]
     public Sprite Winner;
     public Sprite Explotion;
@@ -54,26 +52,9 @@ public class Minigame_Police : AMiniGame
     public RhythmNote[] Notes;
     public RythmObject[] Sequence;
 
-    public float NoteForgiveness = 0.2f;
-
     public float CurrentTimer = 0f;
 
-    private int p1HitNotes = 0;
-    private int p2HitNotes = 0;
-
     private bool ActiveGame = true;
-
-    [Header("Players")]
-    private int P1CurrentNote = 0;
-    private int P1Score = 0;
-
-    private int P2CurrentNote = 0;
-    private int P2Score = 0;
-
-    private bool P1Winner = false;
-    private bool P2Winner = false;
-
-    private int MaxScore = 10;
 
 
     void Start()
@@ -84,19 +65,9 @@ public class Minigame_Police : AMiniGame
 
     public override void InitMiniGame()
     {
-        MaxScore = Notes.Length;
-
         CurrentTimer = 0f;
-
-        P1CurrentNote = 0;
-        P2CurrentNote = 0;
-
-        P1Score = 0;
-        P2Score = 0;
-
-        p1HitNotes = 0;
-        p2HitNotes = 0;
-
+        P1Fail = false;
+        P2Fail = false;
         ActiveGame = true;
     }
 
@@ -109,53 +80,8 @@ public class Minigame_Police : AMiniGame
         }
 
         CurrentTimer += Time.deltaTime;
-
-        if (P1Winner && P2Winner)
-        {
-            P1Fail = true;
-            P1Winner = false;
-        }
-
-        if (P1Fail || P2Fail)
-        {
-            if (P1Fail)
-            {
-                Obstacle1.GetComponent<SpriteRenderer>().sprite = Explotion;
-                Obstacle2.GetComponent<SpriteRenderer>().sprite = Winner;
-            }
-
-            else if (P2Fail)
-            {
-                Obstacle2.GetComponent<SpriteRenderer>().sprite = Explotion;
-                Obstacle1.GetComponent<SpriteRenderer>().sprite = Winner;
-            }
-
-            if (P1Fail && P2Fail)
-            {
-                P2Fail = false;
-            }
-        }
-
-        else
-        {
-            UpdateObstacles();
-        }
-
-        CheckPlayer1();
-        CheckPlayer2();
-
-        if (CurrentTimer >= TimeLimit)
-        {
-            if (P1Score > P2Score)
-            {
-                NotifyWinner(1);
-            } else
-            {
-                NotifyWinner(2);
-            }
-            ActiveGame = false;
-                EndMiniGame();
-        }
+        UpdateObstacles();
+        CheckReactionInput();
     }
 
     void UpdateObstacles()
@@ -228,103 +154,49 @@ public class Minigame_Police : AMiniGame
                 break;
         }
     }
-    void CheckPlayer1()
+    private void CheckReactionInput()
     {
-        if (P1CurrentNote >= Notes.Length)
+        if (Notes == null || Notes.Length == 0 || Keyboard.current == null)
+            return;
+
+        RhythmNote reactionNote = Notes[0];
+        bool p1Pressed = Keyboard.current[reactionNote.KeyP1].wasPressedThisFrame;
+        bool p2Pressed = Keyboard.current[reactionNote.KeyP2].wasPressedThisFrame;
+
+        if (!p1Pressed && !p2Pressed)
+            return;
+
+        // Si ambos inputs llegan en el mismo frame, Input System no proporciona
+        // un orden entre ellos. Se escoge al azar para no favorecer a P1.
+        int pressingPlayer = p1Pressed && p2Pressed ? Random.Range(1, 3) : p1Pressed ? 1 : 2;
+
+        if (CurrentTimer < reactionNote.HitTime)
         {
+            FinishGame(pressingPlayer == 1 ? 2 : 1);
             return;
         }
 
-        if (P1Fail)
-        {
-            return;
-        }
-
-        RhythmNote note = Notes[P1CurrentNote];
-
-        if (Keyboard.current[note.KeyP1].wasPressedThisFrame)
-        {
-            float difference = Mathf.Abs(CurrentTimer - note.HitTime);
-
-            if (difference <= NoteForgiveness)
-            {
-                P1Score++;
-                p1HitNotes++;
-
-                P1Winner = true;
-
-                P1CurrentNote++;
-            }
-            else
-            {
-                P1Fail = true;
-                Obstacle1.GetComponent<SpriteRenderer>().sprite = Explotion;
-                P1Score--;
-                P1CurrentNote++;
-                print("P1 FAILED");
-            }
-        }
-
-        if (CurrentTimer > note.HitTime + NoteForgiveness)
-        {
-            P1Fail = true;
-            Obstacle1.GetComponent<SpriteRenderer>().sprite = Explotion;
-            print("P1 MISS!");
-            P1Score--;
-            P1CurrentNote++;
-        }
+        FinishGame(pressingPlayer);
     }
 
-
-    void CheckPlayer2()
+    private void FinishGame(int winner)
     {
-        if (P2CurrentNote >= Notes.Length)
-        {
-            return;
-        }
+        ActiveGame = false;
 
-        if (P2Fail)
-        {
-            return;
-        }
+        bool player1Wins = winner == 1;
+        P1Fail = !player1Wins;
+        P2Fail = player1Wins;
 
-        RhythmNote note = Notes[P2CurrentNote];
+        Obstacle1.GetComponent<SpriteRenderer>().sprite = player1Wins ? Winner : Explotion;
+        Obstacle2.GetComponent<SpriteRenderer>().sprite = player1Wins ? Explotion : Winner;
 
-        if (Keyboard.current[note.KeyP2].wasPressedThisFrame)
-        {
-            float difference = Mathf.Abs(CurrentTimer - note.HitTime);
-
-            if (difference <= NoteForgiveness)
-            {
-                P2Score++;
-                p2HitNotes++;
-
-                P2Winner = true;
-
-                P2CurrentNote++;
-            }
-            else
-            {
-                P2Fail = true;
-                Obstacle2.GetComponent<SpriteRenderer>().sprite = Explotion;
-                P2Score--;
-                P2CurrentNote++;
-                print("P2 FAILED");
-            }
-        }
-
-        if (CurrentTimer > note.HitTime + NoteForgiveness)
-        {
-            P2Fail = true;
-            Obstacle2.GetComponent<SpriteRenderer>().sprite = Explotion;
-            print("P2 MISS!");
-            P1Score--;
-            P2CurrentNote++;
-        }
+        NotifyWinner(winner);
+        EndMiniGame();
     }
 
 
     public override void EndMiniGame()
     {
+        ReturnToMiddleScene();
     }
 }
