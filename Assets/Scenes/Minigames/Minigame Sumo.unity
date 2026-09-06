@@ -857,11 +857,11 @@ MonoBehaviour:
     Path: 
   Punch:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1592652388
+      Data2: 1232166068
+      Data3: 1163647414
+      Data4: -736562067
+    Path: event:/SFX/Mini/sumo_flip
   CarPrefab: {fileID: 7168392282668745321, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
   CarPrefab2: {fileID: 7168392282668745321, guid: cb45ed0cef97dce4eb0a736daf4c264a, type: 3}
   SumoPrefab: {fileID: 9144979715560673063, guid: 43a882e91fb5d124099da9ee41c3b97d, type: 3}
