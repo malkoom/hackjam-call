@@ -133,23 +133,8 @@ public class RaceManager : MonoBehaviour
             return;
 
         isReturningToMenu = true;
-        StartCoroutine(ReturnToMainMenuRoutine());
-    }
-
-    private IEnumerator ReturnToMainMenuRoutine()
-    {
-        Scene persistentScene = SceneManager.GetSceneByName("DontDestroyOnLoad");
-
-        if (persistentScene.IsValid())
-        {
-            foreach (GameObject persistentObject in persistentScene.GetRootGameObjects())
-                Destroy(persistentObject);
-        }
-
-        // Destroy se procesa al final del frame. Esperar evita que los singletons
-        // persistentes sobrevivan un instante al cargar el menú.
-        yield return new WaitForEndOfFrame();
-
+        Destroy(UIManager.Singleton.gameObject);
+        Destroy(GameManager.Singleton.gameObject);
         SceneManager.LoadScene(mainMenuSceneName);
     }
 }
