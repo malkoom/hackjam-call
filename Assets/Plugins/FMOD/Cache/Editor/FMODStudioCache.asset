@@ -514,7 +514,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639242865994740501
+  lastModified: 639242878924353157
   FileSizes:
   - Name: Desktop
     Value: 1376
@@ -543,7 +543,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: -7378349849757694804}
+  - {fileID: -987643824462016526}
   MinDistance: 1
   MaxDistance: 20
   Length: 21823
@@ -623,15 +623,15 @@ MonoBehaviour:
   - {fileID: -2441895725517910065}
   - {fileID: -7049562746994042487}
   - {fileID: -1951707507577502619}
-  - {fileID: 7194713989547777153}
-  - {fileID: -6252672097918001830}
+  - {fileID: -885985717701580784}
+  - {fileID: -3946961642920345916}
   EditorParameters: []
   MasterBanks:
   - {fileID: 3401253042029549814}
   StringsBanks:
   - {fileID: -1985114281200931091}
   cacheVersion: 131860
-  cacheTime: 639242871617393536
+  cacheTime: 639242878924353157
   SerializableEventsDict:
   - key: event:/MXS/Mini_mx
     index: 0
@@ -722,10 +722,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639242871617393536
+  lastModified: 639242878924336804
   FileSizes:
   - Name: Desktop
-    Value: 2628320
+    Value: 2628416
   Exists: 1
 --- !u!114 &3945465326369015039
 MonoBehaviour:
