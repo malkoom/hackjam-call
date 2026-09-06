@@ -4350,6 +4350,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036591147}
   m_CullTransparentMesh: 1
+--- !u!1 &1038045639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1038045640}
+  - component: {fileID: 1038045641}
+  m_Layer: 0
+  m_Name: ControlsOverlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1038045640
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038045639}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 6.85988}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.48133, y: -0.1417}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1038045641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038045639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16e39aa6d136794999d3f8bab55b038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerControlsOverlay
+  redBrakeSprite: {fileID: -8578038284950244786, guid: 99d331b584dc37d44b726848d22ef172, type: 3}
+  redAccelSprite: {fileID: 4486644234301508829, guid: dee2a92fafa7a0e429956e7d9d7e1abe, type: 3}
+  blueBrakeSprite: {fileID: -6767065090236029133, guid: 69157555ee969414b92f16709c7a6666, type: 3}
+  blueAccelSprite: {fileID: -1092871613513811840, guid: 626eeddcc9a202e47abd7f0549099e2b, type: 3}
+  bottomOffset: 45
+  fadeInDuration: 1
+  displayDuration: 8.5
+  fadeOutDuration: 1.5
 --- !u!1001 &1047437072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4748,6 +4804,10 @@ MonoBehaviour:
   derailUpwardForce: 1.8
   derailSpinSpeed: 6
   carCamera: {fileID: 353804099}
+  popupScale: 0.0015
+  popupFloatHeight: 0.3
+  popupStartHeight: 0.25
+  testPowerUpPopups: 1
   isLoop: 0
   rotationSmoothSpeed: 15
   modelRotationOffset: {x: 0, y: 0, z: 0}
@@ -8525,6 +8585,10 @@ MonoBehaviour:
   derailUpwardForce: 1.8
   derailSpinSpeed: 6
   carCamera: {fileID: 1871866730}
+  popupScale: 0.0015
+  popupFloatHeight: 0.3
+  popupStartHeight: 0.25
+  testPowerUpPopups: 1
   isLoop: 0
   rotationSmoothSpeed: 15
   modelRotationOffset: {x: 0, y: 0, z: 0}
@@ -8710,6 +8774,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1038045640}
   - {fileID: 1496276284}
   - {fileID: 1047437072}
   - {fileID: 1254375011}
