@@ -1,8 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class Minigame_Towers : AMiniGame
 {
+    [Header("SFX")]
+    public EventReference GunShot;
+    public EventReference Death;
+
     [Header("Towers")]
     public GameObject[] Towers = new GameObject[2];
 
@@ -190,6 +195,7 @@ public class Minigame_Towers : AMiniGame
         if (player1Collider != null &&
             deathZoneCollider.IsTouching(player1Collider))
         {
+            RuntimeManager.PlayOneShot(Death, transform.position);
             ActiveGame = false;
             Players[0].GetComponent<SpriteRenderer>().sprite = DeathP1;
             // P1 perdió
@@ -201,6 +207,7 @@ public class Minigame_Towers : AMiniGame
         if (player2Collider != null &&
             deathZoneCollider.IsTouching(player2Collider))
         {
+            RuntimeManager.PlayOneShot(Death, transform.position);
             Players[1].GetComponent<SpriteRenderer>().sprite = DeathP2;
             ActiveGame = false;
 
@@ -218,6 +225,8 @@ public class Minigame_Towers : AMiniGame
 
         if (shooter == null || target == null)
             return;
+
+        RuntimeManager.PlayOneShot(GunShot, shooter.transform.position);
 
         float directionX = Mathf.Sign(
             target.transform.position.x -

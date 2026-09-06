@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,12 @@ using UnityEngine.InputSystem;
 }
 public class Minigame_Gasfill : AMiniGame
 {
+    [Header("Sound")]
+    public EventReference Pour;
+
+    private FMOD.Studio.EventInstance p1PourInstance;
+    private FMOD.Studio.EventInstance p2PourInstance;
+
     private float ZBegginerPos;
 
     public PlayerTank P1Tank;
@@ -62,6 +69,10 @@ public class Minigame_Gasfill : AMiniGame
         if (Keyboard.current.wKey.wasPressedThisFrame)
         {
             P1Tank.Tank.transform.rotation = Quaternion.Euler(0, 0, -50);
+
+            p1PourInstance = RuntimeManager.CreateInstance(Pour);
+            RuntimeManager.AttachInstanceToGameObject(p1PourInstance, P1Tank.Tank);
+            p1PourInstance.start();
         }
 
         if (Keyboard.current.wKey.wasReleasedThisFrame)
@@ -74,11 +85,18 @@ public class Minigame_Gasfill : AMiniGame
             P1isReady = true;
             P1Score = P1Tank.Fill.transform.position.y;
             P1Tank.Tank.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            p1PourInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            p1PourInstance.release();
         }
 
         if (Keyboard.current.upArrowKey.wasPressedThisFrame)
         {
             P2Tank.Tank.transform.rotation = Quaternion.Euler(0,0,50);
+
+            p2PourInstance = RuntimeManager.CreateInstance(Pour);
+            RuntimeManager.AttachInstanceToGameObject(p2PourInstance, P2Tank.Tank);
+            p2PourInstance.start();
         }
 
         if (Keyboard.current.upArrowKey.isPressed && !P2isReady)
@@ -102,6 +120,9 @@ public class Minigame_Gasfill : AMiniGame
             P2isReady = true;
             P2Score = P2Tank.Fill.transform.position.y;
             P2Tank.Tank.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            p2PourInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            p2PourInstance.release();
         }
 
         if (P2isReady && P1isReady)

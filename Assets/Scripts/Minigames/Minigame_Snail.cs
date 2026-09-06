@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using FMODUnity;
 public class Minigame_Snail : AMiniGame
 {
+    [Header("Sound")]
+    public EventReference Slime;
+
     [Header("Snail")]
     public GameObject Baba;
     public Sprite[] BabaTypes = new Sprite[3];
@@ -97,6 +100,7 @@ public class Minigame_Snail : AMiniGame
         // PLAYER 1
         if (Keyboard.current[player1KeySequence[playerKeyIndex]].wasPressedThisFrame)
         {
+            RuntimeManager.PlayOneShot(Slime, Snail.transform.position);
             Snail.transform.position += new Vector3(0.3f, 0, 0);
 
             Snail.transform.rotation = Quaternion.Euler(0, 0, TiltP1);
@@ -123,6 +127,7 @@ public class Minigame_Snail : AMiniGame
         // PLAYER 2
         if (Keyboard.current[player2KeySequence[player2KeyIndex]].wasPressedThisFrame)
         {
+            RuntimeManager.PlayOneShot(Slime, Snail2.transform.position);
             Snail2.transform.position += new Vector3(0.3f, 0, 0);
 
             Snail2.transform.rotation = Quaternion.Euler(0, 0, TiltP2);

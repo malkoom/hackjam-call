@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 [System.Serializable]
 public struct Obstacle
@@ -32,6 +33,8 @@ public class RythmObject
 
 public class Minigame_Police : AMiniGame
 {
+    //[Header("Sound")]
+
     [Header("Obstacles")]
     public Sprite Winner;
     public Sprite Explotion;
