@@ -55,7 +55,7 @@ public class IntroSceneManager : MonoBehaviour
 
     private IEnumerator ShowStartButtonAfterDoorCloses()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2);
 
         CloseDoor();
 
