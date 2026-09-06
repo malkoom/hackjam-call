@@ -9,7 +9,7 @@ public class RaceManager : MonoBehaviour
     public static RaceManager Instance;
 
     [Header("Referencias de UI (TextMeshPro)")]
-    [Tooltip("Texto grande centrado para la cuenta atrás (3, 2, 1, ¡YA!)")]
+    [Tooltip("Texto grande centrado para la cuenta atrás (3, 2, 1, YA!)")]
     public TextMeshProUGUI countdownText;
 
     [Tooltip("Panel o texto que muestra el ganador al terminar")]
@@ -67,7 +67,7 @@ public class RaceManager : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             }
 
-            countdownText.text = "¡YA!";
+            countdownText.text = "YA!";
         }
         else
         {
@@ -95,14 +95,14 @@ public class RaceManager : MonoBehaviour
 
             if (winnerTeam == SplineCarController.Team.Red_WASD)
             {
-                winnerText.text = "<color=#FF3333>¡GANA EL EQUIPO ROJO!</color>\n<size=50%>Pulsa 'R' para reiniciar</size>";
+                winnerText.text = "<color=#FF3333>GANA EL EQUIPO ROJO!</color>\n<size=50%>Pulsa 'R' para reiniciar</size>";
             }
             else
             {
-                winnerText.text = "<color=#3388FF>¡GANA EL EQUIPO AZUL!</color>\n<size=50%>Pulsa 'R' para reiniciar</size>";
+                winnerText.text = "<color=#3388FF>GANA EL EQUIPO AZUL!</color>\n<size=50%>Pulsa 'R' para reiniciar</size>";
             }
         }
 
-        Debug.Log($"¡CARRERA TERMINADA! Ganador: {winnerTeam}");
+        Debug.Log($"CARRERA TERMINADA! Ganador: {winnerTeam}");
     }
 }
