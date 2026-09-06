@@ -18,6 +18,10 @@ public class SplineCarController : MonoBehaviour
     [Header("Referencia al Spline")]
     public SplineContainer splineContainer;
 
+    [Header("Modelo Visual (Hijo)")]
+    [Tooltip("Arrastra aquí el GameObject hijo donde está la malla real del coche. Evita que reaparezca la malla del objeto padre (ej. cubo viejo).")]
+    public GameObject visualModel;
+
     [Header("Checkpoints (Por Knots del Spline)")]
     public List<int> checkpointKnots = new List<int> { 0 };
 
@@ -77,6 +81,7 @@ public class SplineCarController : MonoBehaviour
     private List<CheckpointInfo> cachedCheckpoints = new List<CheckpointInfo>();
     private float lastCheckpointProgress = 0f;
 
+    // Renderers exclusivos de la malla hija
     private Renderer[] carRenderers;
 
     private Transform originalCameraParent;
@@ -92,8 +97,7 @@ public class SplineCarController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
 
-        carRenderers = GetComponentsInChildren<Renderer>(true);
-
+        SetupVisualRenderers();
         SetupCamera();
         InitCheckpoints();
 
@@ -101,11 +105,41 @@ public class SplineCarController : MonoBehaviour
         {
             splineLength = splineContainer.CalculateLength();
             progress = lastCheckpointProgress;
-            UpdateTransformOnSpline();
+
+            // ALINEACIÓN EXACTA Y PERFECTA EN LA SALIDA (sin interpolación lenta)
+            UpdateTransformOnSpline(snapImmediate: true);
         }
         else
         {
             Debug.LogError($"¡[{gameObject.name}] Falta asignar el SplineContainer!", this);
+        }
+    }
+
+    private void SetupVisualRenderers()
+    {
+        // Si el usuario asignó el hijo donde está el modelo real
+        if (visualModel != null)
+        {
+            carRenderers = visualModel.GetComponentsInChildren<Renderer>(true);
+        }
+        else
+        {
+            // Auto-filtro: Tomar solo los renderers hijos y excluir el del objeto padre
+            Renderer rootRenderer = GetComponent<Renderer>();
+            List<Renderer> validRenderers = new List<Renderer>();
+
+            foreach (Renderer r in GetComponentsInChildren<Renderer>(true))
+            {
+                if (r != rootRenderer) // Ignorar la malla del padre donde está puesto el script
+                {
+                    validRenderers.Add(r);
+                }
+            }
+
+            if (validRenderers.Count > 0)
+                carRenderers = validRenderers.ToArray();
+            else
+                carRenderers = GetComponentsInChildren<Renderer>(true);
         }
     }
 
@@ -167,19 +201,19 @@ public class SplineCarController : MonoBehaviour
     {
         if (isDerailed || isFinished || splineContainer == null || splineLength <= 0f) return;
 
-        // Si la carrera ha terminado, frena suavemente
         if (RaceManager.isRaceOver)
         {
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, friction * 2f * Time.deltaTime);
             AdvanceProgress();
-            UpdateTransformOnSpline();
+            UpdateTransformOnSpline(snapImmediate: false);
             return;
         }
 
-        // Bloquear aceleración hasta que termine la cuenta atrás
+        // Antes y durante la cuenta atrás: fijar posición y orientación perfecta
         if (!RaceManager.isRaceStarted)
         {
             currentSpeed = 0f;
+            UpdateTransformOnSpline(snapImmediate: true);
             return;
         }
 
@@ -187,7 +221,7 @@ public class SplineCarController : MonoBehaviour
         CheckCurveAndTilt();
         AdvanceProgress();
         UpdateCheckpoints();
-        UpdateTransformOnSpline();
+        UpdateTransformOnSpline(snapImmediate: false);
     }
 
     private void HandleInput()
@@ -342,9 +376,11 @@ public class SplineCarController : MonoBehaviour
             carCamera.transform.localRotation = originalCameraLocalRot;
         }
 
-        UpdateTransformOnSpline();
+        // Snap exacto en el checkpoint
+        UpdateTransformOnSpline(snapImmediate: true);
         isDerailed = false;
 
+        // Efecto de parpadeo solo sobre las mallas del hijo
         float elapsed = 0f;
         bool isVisible = true;
         while (elapsed < blinkDuration)
@@ -384,7 +420,6 @@ public class SplineCarController : MonoBehaviour
 
                 if (currentLap >= requiredLaps)
                 {
-                    // ¡Meta alcanzada!
                     isFinished = true;
                     if (RaceManager.Instance != null) RaceManager.Instance.CarFinished(team);
                 }
@@ -408,7 +443,7 @@ public class SplineCarController : MonoBehaviour
         }
     }
 
-    private void UpdateTransformOnSpline()
+    private void UpdateTransformOnSpline(bool snapImmediate = false)
     {
         splineContainer.Evaluate(progress, out float3 worldPos, out float3 worldTangent, out float3 worldUp);
 
@@ -423,7 +458,16 @@ public class SplineCarController : MonoBehaviour
             targetRotation *= Quaternion.Euler(modelRotationOffset);
             targetRotation *= Quaternion.Euler(0f, 0f, currentTilt);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSmoothSpeed * Time.deltaTime);
+            if (snapImmediate)
+            {
+                // En la salida o reaparición: rotación instantánea y perfecta sin girar despacio
+                transform.rotation = targetRotation;
+            }
+            else
+            {
+                // Conduciendo en carrera: suavizado normal
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSmoothSpeed * Time.deltaTime);
+            }
         }
     }
 
