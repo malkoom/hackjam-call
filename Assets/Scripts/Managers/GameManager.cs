@@ -121,7 +121,8 @@ public class GameManager : MonoBehaviour
         if (availablePieces.Count == 0)
         {
             Debug.LogWarning("No hay piezas ni escenas de minijuegos configuradas.");
-            //SceneManager.LoadScene("FinalScene");
+
+            UIManager.Singleton.FadeIn();
             return null;
         }
 
