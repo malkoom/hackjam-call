@@ -1,9 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class MiniGame1 : AMiniGame
 {
+    [Header("Sounds")]
+    public EventReference Bong;
+    public EventReference Punch;
+
     [Header("Players")]
     public GameObject CarPrefab;
     public GameObject CarPrefab2;
@@ -61,6 +66,8 @@ public class MiniGame1 : AMiniGame
 
     public override void InitMiniGame()
     {
+        RuntimeManager.PlayOneShot(Bong, transform.position);
+
         ActiveGame = true;
 
         currentTimer = 0f;
@@ -307,6 +314,7 @@ public class MiniGame1 : AMiniGame
         int player
     )
     {
+        RuntimeManager.PlayOneShot(Punch, transform.position);
         if (player == 1)
         {
             P1Animating = true;

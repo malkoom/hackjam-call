@@ -2,9 +2,13 @@ using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class Minigame_Squidgame : AMiniGame
 {
+    [Header("SFX")]
+    public EventReference PoliceScream;
+
     [Header("Game")]
     public float StartingX;
     public float ObjectiveX;
@@ -66,6 +70,7 @@ public class Minigame_Squidgame : AMiniGame
 
         if (currentTimer >= Timer && !isLooking)
         {
+            RuntimeManager.PlayOneShot(PoliceScream, transform.position);
             Alert.SetActive(false);
             currentTimer = 0.0f;
             isLooking = true;
