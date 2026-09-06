@@ -198,7 +198,7 @@ MonoBehaviour:
   Name: mid
   StudioPath: 
   Min: 0
-  Max: 6
+  Max: 9
   Default: 0
   ID:
     data1: 13357647
@@ -315,6 +315,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1000
+--- !u!114 &-3946961642920345916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Player/gas_acel
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/SFX/Player/gas_acel
+  Guid:
+    Data1: 2079306441
+    Data2: 1241839201
+    Data3: -522853443
+    Data4: 1294987552
+  Banks:
+  - {fileID: 3401253042029549814}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3000
 --- !u!114 &-3883343228708925823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +369,7 @@ MonoBehaviour:
   - {fileID: -6423014771463937086}
   MinDistance: 1
   MaxDistance: 20
-  Length: 60923
+  Length: 90765
 --- !u!114 &-3205779737872752373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,10 +463,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639242702058902084
+  lastModified: 639242871108081230
   FileSizes:
   - Name: Desktop
-    Value: 1254
+    Value: 1376
   Exists: 1
 --- !u!114 &-1951707507577502619
 MonoBehaviour:
@@ -461,13 +488,65 @@ MonoBehaviour:
     Data4: 1954961810
   Banks:
   - {fileID: 3401253042029549814}
-  IsStream: 0
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -987643824462016526}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 21823
+--- !u!114 &-987643824462016526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Race_mx/FINAL
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: FINAL
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1938484510
+    data2: 1045538627
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-885985717701580784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MXS/Pre_Race
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/MXS/Pre_Race
+  Guid:
+    Data1: -754526108
+    Data2: 1277397840
+    Data3: -1660995963
+    Data4: -1048211106
+  Banks:
+  - {fileID: 3401253042029549814}
+  IsStream: 1
   Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 10900
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,13 +572,15 @@ MonoBehaviour:
   - {fileID: -2441895725517910065}
   - {fileID: -7049562746994042487}
   - {fileID: -1951707507577502619}
+  - {fileID: -885985717701580784}
+  - {fileID: -3946961642920345916}
   EditorParameters: []
   MasterBanks:
   - {fileID: 3401253042029549814}
   StringsBanks:
   - {fileID: -1985114281200931091}
   cacheVersion: 131860
-  cacheTime: 639242702058902084
+  cacheTime: 639242871108081230
   SerializableEventsDict:
   - key: event:/MXS/Mini_mx
     index: 0
@@ -519,6 +600,10 @@ MonoBehaviour:
     index: 7
   - key: event:/MXS/Race_mx
     index: 8
+  - key: event:/MXS/Pre_Race
+    index: 9
+  - key: event:/SFX/Player/gas_acel
+    index: 10
 --- !u!114 &1267663390258478273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,10 +671,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639242702058901462
+  lastModified: 639242871108065731
   FileSizes:
   - Name: Desktop
-    Value: 1819264
+    Value: 2628320
   Exists: 1
 --- !u!114 &3945465326369015039
 MonoBehaviour:
@@ -667,12 +752,12 @@ MonoBehaviour:
   - {fileID: 3401253042029549814}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters:
   - {fileID: 2034362922953594282}
   MinDistance: 1
   MaxDistance: 20
-  Length: 16440
+  Length: 8029
 --- !u!114 &8844973299587238533
 MonoBehaviour:
   m_ObjectHideFlags: 0
