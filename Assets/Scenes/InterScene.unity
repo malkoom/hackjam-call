@@ -4505,6 +4505,26 @@ PrefabInstance:
       propertyPath: travelDuration
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3989554872201789518, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
+      propertyPath: sound.Path
+      value: event:/SFX/Animaticas/puerta
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989554872201789518, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
+      propertyPath: sound.Guid.Data1
+      value: -1664437448
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989554872201789518, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
+      propertyPath: sound.Guid.Data2
+      value: 1264803113
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989554872201789518, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
+      propertyPath: sound.Guid.Data3
+      value: 832667777
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989554872201789518, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
+      propertyPath: sound.Guid.Data4
+      value: 480343485
+      objectReference: {fileID: 0}
     - target: {fileID: 5255541167974915432, guid: df0c4143a2d1fd8e98a3f9d148ce80cd, type: 3}
       propertyPath: m_Name
       value: MiddleScene 1
@@ -5227,6 +5247,13 @@ MonoBehaviour:
   shakeDuration: 0.4
   shakeStrength: 0.2
   canvasShakeStrength: 0.2
+  sound:
+    Guid:
+      Data1: -1664437448
+      Data2: 1264803113
+      Data3: 832667777
+      Data4: 480343485
+    Path: event:/SFX/Animaticas/puerta
 --- !u!224 &1801653233
 RectTransform:
   m_ObjectHideFlags: 0

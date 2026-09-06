@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Splines;
 using Unity.Mathematics;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Splines;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SplineCarController : MonoBehaviour
 {
-    public enum Team { Blue_Arrows, Red_WASD }
+    public enum Team
+    {
+        Blue_Arrows,
+        Red_WASD,
+    }
 
     [Header("Configuración del Jugador")]
     public Team team = Team.Blue_Arrows;
@@ -19,7 +23,9 @@ public class SplineCarController : MonoBehaviour
     public SplineContainer splineContainer;
 
     [Header("Modelo Visual (Hijo)")]
-    [Tooltip("Arrastra aquí el GameObject hijo donde está la malla real del coche. Evita que reaparezca la malla del objeto padre (ej. cubo viejo).")]
+    [Tooltip(
+        "Arrastra aquí el GameObject hijo donde está la malla real del coche. Evita que reaparezca la malla del objeto padre (ej. cubo viejo)."
+    )]
     public GameObject visualModel;
 
     [Header("Checkpoints (Por Knots del Spline)")]
@@ -40,6 +46,7 @@ public class SplineCarController : MonoBehaviour
 
     [Header("Aviso Visual: Inclinación")]
     public float maxTiltAngle = 28f;
+
     [Range(0.1f, 0.9f)]
     public float tiltWarningThreshold = 0.35f;
     public float tiltSmoothSpeed = 8f;
@@ -78,6 +85,7 @@ public class SplineCarController : MonoBehaviour
         public int knotIndex;
         public float progress;
     }
+
     private List<CheckpointInfo> cachedCheckpoints = new List<CheckpointInfo>();
     private float lastCheckpointProgress = 0f;
 
@@ -97,6 +105,15 @@ public class SplineCarController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
 
+        maxSpeed +=
+            team == Team.Red_WASD
+                ? GameManager.Singleton.player1.speed
+                : GameManager.Singleton.player2.speed;
+
+        acceleration +=
+            team == Team.Red_WASD
+                ? GameManager.Singleton.player1.acceleration
+                : GameManager.Singleton.player2.acceleration;
         SetupVisualRenderers();
         SetupCamera();
         InitCheckpoints();
@@ -145,7 +162,8 @@ public class SplineCarController : MonoBehaviour
 
     private void SetupCamera()
     {
-        if (carCamera == null) carCamera = GetComponentInChildren<Camera>(true);
+        if (carCamera == null)
+            carCamera = GetComponentInChildren<Camera>(true);
 
         if (carCamera != null)
         {
@@ -163,7 +181,8 @@ public class SplineCarController : MonoBehaviour
                 {
                     carCamera.rect = new Rect(0.5f, 0f, 0.5f, 1f);
                     AudioListener listener = carCamera.GetComponent<AudioListener>();
-                    if (listener != null) listener.enabled = false;
+                    if (listener != null)
+                        listener.enabled = false;
                 }
             }
         }
@@ -172,7 +191,8 @@ public class SplineCarController : MonoBehaviour
     private void InitCheckpoints()
     {
         cachedCheckpoints.Clear();
-        if (splineContainer == null || splineContainer.Spline == null) return;
+        if (splineContainer == null || splineContainer.Spline == null)
+            return;
 
         int totalKnots = splineContainer.Spline.Count;
         if (checkpointKnots == null || checkpointKnots.Count == 0)
@@ -184,8 +204,14 @@ public class SplineCarController : MonoBehaviour
         {
             if (knotIndex >= 0 && knotIndex < totalKnots)
             {
-                float normT = splineContainer.Spline.ConvertIndexUnit(knotIndex, PathIndexUnit.Knot, PathIndexUnit.Normalized);
-                cachedCheckpoints.Add(new CheckpointInfo { knotIndex = knotIndex, progress = normT });
+                float normT = splineContainer.Spline.ConvertIndexUnit(
+                    knotIndex,
+                    PathIndexUnit.Knot,
+                    PathIndexUnit.Normalized
+                );
+                cachedCheckpoints.Add(
+                    new CheckpointInfo { knotIndex = knotIndex, progress = normT }
+                );
             }
         }
 
@@ -199,7 +225,8 @@ public class SplineCarController : MonoBehaviour
 
     void Update()
     {
-        if (isDerailed || isFinished || splineContainer == null || splineLength <= 0f) return;
+        if (isDerailed || isFinished || splineContainer == null || splineLength <= 0f)
+            return;
 
         if (RaceManager.isRaceOver)
         {
@@ -226,15 +253,18 @@ public class SplineCarController : MonoBehaviour
 
     private void HandleInput()
     {
-        if (Keyboard.current == null) return;
+        if (Keyboard.current == null)
+            return;
 
         bool isAccelerating = false;
         bool isBraking = false;
 
         if (team == Team.Blue_Arrows)
         {
-            isAccelerating = Keyboard.current.rightArrowKey.isPressed || Keyboard.current.upArrowKey.isPressed;
-            isBraking = Keyboard.current.leftArrowKey.isPressed || Keyboard.current.downArrowKey.isPressed;
+            isAccelerating =
+                Keyboard.current.rightArrowKey.isPressed || Keyboard.current.upArrowKey.isPressed;
+            isBraking =
+                Keyboard.current.leftArrowKey.isPressed || Keyboard.current.downArrowKey.isPressed;
         }
         else
         {
@@ -246,7 +276,11 @@ public class SplineCarController : MonoBehaviour
 
         if (isAccelerating)
         {
-            currentSpeed = Mathf.MoveTowards(currentSpeed, targetMaxSpeed, acceleration * globalSpeedMultiplier * Time.deltaTime);
+            currentSpeed = Mathf.MoveTowards(
+                currentSpeed,
+                targetMaxSpeed,
+                acceleration * globalSpeedMultiplier * Time.deltaTime
+            );
         }
         else if (isBraking)
         {
@@ -267,21 +301,33 @@ public class SplineCarController : MonoBehaviour
             return;
         }
 
-        splineContainer.Evaluate(progress, out _, out float3 currentTangentF3, out float3 worldUpF3);
+        splineContainer.Evaluate(
+            progress,
+            out _,
+            out float3 currentTangentF3,
+            out float3 worldUpF3
+        );
         Vector3 currentTangent = (Vector3)currentTangentF3;
         Vector3 up = (Vector3)worldUpF3;
 
         float forwardDelta = lookAheadDistance / splineLength;
         float nextProgress = progress + forwardDelta;
-        if (isLoop && nextProgress >= 1f) nextProgress -= 1f;
+        if (isLoop && nextProgress >= 1f)
+            nextProgress -= 1f;
 
-        splineContainer.Evaluate(Mathf.Clamp01(nextProgress), out _, out float3 futureTangentF3, out _);
+        splineContainer.Evaluate(
+            Mathf.Clamp01(nextProgress),
+            out _,
+            out float3 futureTangentF3,
+            out _
+        );
         Vector3 futureTangent = (Vector3)futureTangentF3;
 
         float turnAngle = Vector3.Angle(currentTangent, futureTangent);
         float turnAngleRad = turnAngle * Mathf.Deg2Rad;
 
-        float lateralAcceleration = (currentSpeed * currentSpeed) * (turnAngleRad / lookAheadDistance);
+        float lateralAcceleration =
+            (currentSpeed * currentSpeed) * (turnAngleRad / lookAheadDistance);
         float turnSign = Vector3.SignedAngle(currentTangent, futureTangent, up);
 
         float gripRatio = lateralAcceleration / maxCorneringGrip;
@@ -326,7 +372,12 @@ public class SplineCarController : MonoBehaviour
         }
     }
 
-    private void TriggerDerail(Vector3 currentTangent, Vector3 futureTangent, Vector3 up, float turnSign)
+    private void TriggerDerail(
+        Vector3 currentTangent,
+        Vector3 futureTangent,
+        Vector3 up,
+        float turnSign
+    )
     {
         isDerailed = true;
 
@@ -344,9 +395,10 @@ public class SplineCarController : MonoBehaviour
         Vector3 lateralDir = Vector3.Cross(up, currentTangent).normalized;
         Vector3 outwardDir = (turnSign > 0 ? -lateralDir : lateralDir);
 
-        Vector3 ejectVelocity = (currentTangent.normalized * (currentSpeed * 0.7f)) +
-                                (outwardDir * (currentSpeed * derailOutwardForce)) +
-                                (Vector3.up * derailUpwardForce);
+        Vector3 ejectVelocity =
+            (currentTangent.normalized * (currentSpeed * 0.7f))
+            + (outwardDir * (currentSpeed * derailOutwardForce))
+            + (Vector3.up * derailUpwardForce);
 
         rb.linearVelocity = ejectVelocity;
 
@@ -396,16 +448,19 @@ public class SplineCarController : MonoBehaviour
 
     private void SetRenderersVisible(bool visible)
     {
-        if (carRenderers == null) return;
+        if (carRenderers == null)
+            return;
         for (int i = 0; i < carRenderers.Length; i++)
         {
-            if (carRenderers[i] != null) carRenderers[i].enabled = visible;
+            if (carRenderers[i] != null)
+                carRenderers[i].enabled = visible;
         }
     }
 
     private void AdvanceProgress()
     {
-        if (currentSpeed <= 0f) return;
+        if (currentSpeed <= 0f)
+            return;
 
         float deltaProgress = (currentSpeed * Time.deltaTime) / splineLength;
         progress += deltaProgress;
@@ -421,7 +476,8 @@ public class SplineCarController : MonoBehaviour
                 if (currentLap >= requiredLaps)
                 {
                     isFinished = true;
-                    if (RaceManager.Instance != null) RaceManager.Instance.CarFinished(team);
+                    if (RaceManager.Instance != null)
+                        RaceManager.Instance.CarFinished(team);
                 }
                 else
                 {
@@ -438,14 +494,20 @@ public class SplineCarController : MonoBehaviour
                 progress = 1f;
                 currentSpeed = 0f;
                 isFinished = true;
-                if (RaceManager.Instance != null) RaceManager.Instance.CarFinished(team);
+                if (RaceManager.Instance != null)
+                    RaceManager.Instance.CarFinished(team);
             }
         }
     }
 
     private void UpdateTransformOnSpline(bool snapImmediate = false)
     {
-        splineContainer.Evaluate(progress, out float3 worldPos, out float3 worldTangent, out float3 worldUp);
+        splineContainer.Evaluate(
+            progress,
+            out float3 worldPos,
+            out float3 worldTangent,
+            out float3 worldUp
+        );
 
         transform.position = (Vector3)worldPos;
 
@@ -466,7 +528,11 @@ public class SplineCarController : MonoBehaviour
             else
             {
                 // Conduciendo en carrera: suavizado normal
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSmoothSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    rotationSmoothSpeed * Time.deltaTime
+                );
             }
         }
     }
@@ -476,7 +542,11 @@ public class SplineCarController : MonoBehaviour
         if (isDerailed && carCamera != null)
         {
             carCamera.transform.position = transform.position + cameraWorldOffsetOnDerail;
-            carCamera.transform.rotation = Quaternion.Euler(frozenCameraX, frozenCameraY, frozenCameraZ);
+            carCamera.transform.rotation = Quaternion.Euler(
+                frozenCameraX,
+                frozenCameraY,
+                frozenCameraZ
+            );
         }
     }
 }

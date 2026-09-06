@@ -247,6 +247,7 @@ public class GameManager : MonoBehaviour
     {
         UIManager.Singleton.FadeIn();
         yield return new WaitForSeconds(0.35f);
+        UIManager.Singleton.HideGarage();
         SceneManager.LoadScene("OutroScene");
         UIManager.Singleton.FadeOut();
     }
