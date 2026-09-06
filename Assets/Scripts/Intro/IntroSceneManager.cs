@@ -91,7 +91,7 @@ public class IntroSceneManager : MonoBehaviour
             startGameButton.interactable = false;
             startGameButton.gameObject.SetActive(false);
         }
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(gameSceneName);
     }
 
     private IEnumerator OpenDoorThenLoadGame()
