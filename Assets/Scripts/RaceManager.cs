@@ -1,8 +1,8 @@
 using System.Collections;
-using UnityEngine;
 using TMPro; // TextMeshPro para textos nítidos
-using UnityEngine.SceneManagement;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class RaceManager : MonoBehaviour
 {
@@ -17,6 +17,7 @@ public class RaceManager : MonoBehaviour
 
     [Tooltip("Panel de fondo de victoria (opcional)")]
     public GameObject winnerPanel;
+    public GameObject winnerPanel2;
 
     [Header("Configuración de la Carrera")]
     [Tooltip("Número de vueltas necesarias para ganar")]
@@ -38,8 +39,13 @@ public class RaceManager : MonoBehaviour
 
     void Start()
     {
-        if (winnerPanel != null) winnerPanel.SetActive(false);
-        if (winnerText != null) winnerText.gameObject.SetActive(false);
+        if (winnerPanel != null)
+            winnerPanel.SetActive(false);
+        if (winnerText != null)
+            winnerText.gameObject.SetActive(false);
+
+        if (winnerPanel2 != null)
+            winnerPanel2.SetActive(false);
 
         StartCoroutine(CountdownSequence());
     }
@@ -78,16 +84,16 @@ public class RaceManager : MonoBehaviour
         isRaceStarted = true;
 
         yield return new WaitForSeconds(1f);
-        if (countdownText != null) countdownText.gameObject.SetActive(false);
+        if (countdownText != null)
+            countdownText.gameObject.SetActive(false);
     }
 
     // Llamado por el primer coche que cruza la meta
     public void CarFinished(SplineCarController.Team winnerTeam)
     {
-        if (isRaceOver) return; // Solo el primero activa la victoria
+        if (isRaceOver)
+            return; // Solo el primero activa la victoria
         isRaceOver = true;
-
-        if (winnerPanel != null) winnerPanel.SetActive(true);
 
         if (winnerText != null)
         {
@@ -95,11 +101,13 @@ public class RaceManager : MonoBehaviour
 
             if (winnerTeam == SplineCarController.Team.Red_WASD)
             {
-                winnerText.text = "<color=#FF3333>GANA EL EQUIPO ROJO!</color>\n<size=50%>Pulsa 'R' para reiniciar</size>";
+                if (winnerPanel != null)
+                    winnerPanel.SetActive(true);
             }
             else
             {
-                winnerText.text = "<color=#3388FF>GANA EL EQUIPO AZUL!</color>\n<size=50%>Pulsa 'R' para reiniciar</size>";
+                if (winnerPanel2)
+                    winnerPanel2.SetActive(true);
             }
         }
 
