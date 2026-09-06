@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{2815fa7c-782e-4774-90c2-0e7292becf86}">
+		<property name="assetPath">
+			<value>CALL! Jam.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>28.649682539682541</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{3ca249f7-9d73-4799-893e-64fd4f22266b}</destination>
+		</relationship>
+	</object>
+</objects>

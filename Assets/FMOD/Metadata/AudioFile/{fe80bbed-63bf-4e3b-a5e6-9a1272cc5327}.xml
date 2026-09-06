@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{fe80bbed-63bf-4e3b-a5e6-9a1272cc5327}">
+		<property name="assetPath">
+			<value>Caracoles.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>10.900340136054421</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{3ca249f7-9d73-4799-893e-64fd4f22266b}</destination>
+		</relationship>
+	</object>
+</objects>

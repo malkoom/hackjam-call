@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{20e58fc6-5355-42a9-b0c8-9eddef4f991c}">
+		<property name="assetPath">
+			<value>gasolina_fil.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.4159999999999999</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{3ca249f7-9d73-4799-893e-64fd4f22266b}</destination>
+		</relationship>
+	</object>
+</objects>
