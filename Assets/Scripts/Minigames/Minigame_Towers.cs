@@ -192,7 +192,7 @@ public class Minigame_Towers : AMiniGame
             Players[0].GetComponent<SpriteRenderer>().sprite = DeathP1;
             // P1 perdió
             NotifyWinner(2);
-
+            EndMiniGame();
             return;
         }
 
@@ -204,7 +204,7 @@ public class Minigame_Towers : AMiniGame
 
             // P2 perdió
             NotifyWinner(1);
-
+            EndMiniGame();
             return;
         }
     }
