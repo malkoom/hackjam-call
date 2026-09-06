@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
         minigameDescriptions.TryGetValue(nextScene, out string description);
         UIManager.Singleton.SetMinigameTextAndShow(description ?? string.Empty);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.5f);
         UIManager.Singleton.HideGarage();
 
         SceneManager.LoadScene(nextScene);
